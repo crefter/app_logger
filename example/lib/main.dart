@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 
 Future<void> main() async {
@@ -24,16 +23,6 @@ Future<void> main() async {
   await CRLoggerInitializer.instance.init(
     useDatabase: true,
     theme: ThemeData.light(),
-    levelColors: {
-      Level.debug: Colors.lightGreenAccent,
-      Level.warning: Colors.orange,
-      Level.trace: Colors.blueAccent,
-      Level.info: Colors.blueAccent,
-      Level.error: Colors.red,
-      Level.fatal: Colors.red.shade900,
-      Level.off: Colors.grey.shade300,
-      Level.all: Colors.grey.shade300,
-    },
     hiddenFields: [
       'Test',
       'Test3',
@@ -235,8 +224,10 @@ class _MainPageState extends State<MainPage> {
     );
 
     /// Actions
-    CRLoggerInitializer.instance.addActionButton('Log Hi', () => log.i('Hi'));
-    CRLoggerInitializer.instance.addActionButton('Log By', () => log.i('By'));
+    CRLoggerInitializer.instance
+        .addActionButton('Log Hi', () => log.info(title: 'Hi'));
+    CRLoggerInitializer.instance
+        .addActionButton('Log By', () => log.info(title: 'By'));
   }
 
   @override
@@ -535,7 +526,7 @@ class _MainPageState extends State<MainPage> {
       final response = await http.post(url, body: body);
       CRLoggerInitializer.instance.onHttpResponse(response, body);
     } on SocketException catch (error) {
-      log.e(error.message);
+      log.error(title: error.message);
     }
   }
 
@@ -564,7 +555,7 @@ class _MainPageState extends State<MainPage> {
         body,
       );
     } on SocketException catch (error) {
-      log.e(error.message);
+      log.error(message: error.message);
     }
   }
 
@@ -607,14 +598,13 @@ class _MainPageState extends State<MainPage> {
 
   void _makeLogDebug() {
     log
-      ..d('Debug message at ${DateTime.now().toIso8601String()}')
-      ..t('Trace message at ${DateTime.now().toIso8601String()}');
+      ..debug(message: 'Debug message at ${DateTime.now().toIso8601String()}')
+      ..info(message: 'Trace message at ${DateTime.now().toIso8601String()}');
   }
 
   void _makeLogDebugWithToast() {
-    log.d(
-      'Debug message at ${DateTime.now().toIso8601String()}',
-      showToast: true,
+    log.debug(
+      message: 'Debug message at ${DateTime.now().toIso8601String()}',
     );
   }
 
@@ -623,8 +613,8 @@ class _MainPageState extends State<MainPage> {
         'e9U_NJKzXUtNkom7BTlOSn:APA91bF4vFgc8nsFE2SKt7XLDTdpvPPf6xlGicRXR9sxyu6Wfd48Xm00oh-r3TqGaKyEUixlfE7HYfE62V83skQYwzcvxAi34Lp7a9IxCuVBB9Ovxj-xZm5T_RFbtn_7di7v_dTU0fLD';
 
     log
-      ..d('Debug message with param: {{$token}}')
-      ..t('Trace message with param: {{$token}}');
+      ..debug(message: 'Debug message with param: {{$token}}')
+      ..warning(message: 'Trace message with param: {{$token}}');
   }
 
   void _makeLogJson() {
@@ -644,24 +634,24 @@ class _MainPageState extends State<MainPage> {
     };
 
     log
-      ..d(data)
-      ..i(data)
-      ..e(data);
+      ..debug(message: data)
+      ..info(message: data)
+      ..error(message: data);
   }
 
   void _makeLogWarning() {
     log
-      ..w('Warning message at ${DateTime.now().toIso8601String()}')
-      ..i('Info message at ${DateTime.now().toIso8601String()}');
+      ..warning(message: 'Warning message at ${DateTime.now().toIso8601String()}')
+      ..info(message: 'Info message at ${DateTime.now().toIso8601String()}');
   }
 
   void _makeLogError() {
     log
-      ..e(
-        'Error message at ${DateTime.now().toIso8601String()}',
+      ..error(
+        message: 'Error message at ${DateTime.now().toIso8601String()}',
         error: const HttpException('message'),
       )
-      ..f('Fatal message at ${DateTime.now().toIso8601String()}');
+      ..wtf(message: 'Fatal message at ${DateTime.now().toIso8601String()}');
   }
 
   void _makeLogDebugNative() {

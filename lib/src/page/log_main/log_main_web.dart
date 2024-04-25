@@ -286,7 +286,7 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
   /// Opens the log details page
   Future<void> _openLogDetails() async {
     final log = LogManager.instance.logToastNotifier.value;
-    final logType = log?.type;
+    final logType = log?.type as LogType?;
 
     if (logType != null && log != null) {
       await Navigator.pushAndRemoveUntil(

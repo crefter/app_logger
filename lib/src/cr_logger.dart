@@ -14,7 +14,6 @@ import 'package:cr_logger/src/page/actions_and_values/notifiers_manager.dart';
 import 'package:cr_logger/src/page/log_main/log_main.dart';
 import 'package:cr_logger/src/providers/sqflite_provider.dart';
 import 'package:cr_logger/src/res/theme.dart';
-import 'package:cr_logger/src/utils/console_log_output.dart';
 import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
 import 'package:cr_logger/src/utils/show_log_snack_bar.dart';
 import 'package:flutter/foundation.dart';
@@ -35,8 +34,6 @@ final class CRLoggerInitializer {
   );
 
   static CRLoggerInitializer instance = CRLoggerInitializer._();
-
-  final _consoleLogOutput = ConsoleLogOutput();
   final _loggerNavigationKey = GlobalKey<NavigatorState>();
   final _rootBackButtonDispatcher = RootBackButtonDispatcher();
   late final CRHttpClientAdapter _httpClientAdapter;
@@ -156,7 +153,7 @@ final class CRLoggerInitializer {
     this.hiddenFields = hiddenFields ?? [];
     this.hiddenHeaders = hiddenHeaders ?? [];
 
-    log = logger ?? ProximaLogger();
+    log = logger ?? CRLoggerWrapper.instance;
 
     _rootBackButtonDispatcher.addCallback(_dispatchBackButton);
     if (!kIsWeb && _useDB && useCrLoggerInReleaseBuild) {

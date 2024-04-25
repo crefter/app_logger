@@ -22,7 +22,7 @@ final class LogBean implements Comparable<LogBean> {
   final DateTime time;
   final String? stackTrace;
   final Map<String, dynamic>? data;
-  LogType? type;
+  ILogType? type;
   Color color;
   bool showToast;
 

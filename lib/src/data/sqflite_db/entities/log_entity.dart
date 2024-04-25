@@ -1,4 +1,3 @@
-import 'package:cr_logger/cr_logger.dart';
 import 'package:cr_logger/src/utils/enum_ext.dart';
 import 'package:cr_logger/src/utils/map_ext.dart';
 import 'package:proxima_logger/proxima_logger.dart';
@@ -32,7 +31,7 @@ final class LogEntity {
   final DateTime? time;
   final String? stackTrace;
   final String? data;
-  final LogType type;
+  final ILogType type;
 
   /// [key] should not be in this method, because the database increments it itself.
   Map<String, dynamic> toJson() {
@@ -42,7 +41,7 @@ final class LogEntity {
       'time': time?.toUtc().toString(),
       'stacktrace': stackTrace?.toString(),
       'data': data?.toString(),
-      'type': type.name.toString(),
+      'type': type.label.toString(),
     };
 
     // ignore: cascade_invocations

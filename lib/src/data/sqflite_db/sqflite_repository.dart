@@ -1,4 +1,3 @@
-import 'package:cr_logger/cr_logger.dart';
 import 'package:cr_logger/src/cr_logger_helper.dart';
 import 'package:cr_logger/src/data/sqflite_db/entities/http_entity.dart';
 import 'package:cr_logger/src/data/sqflite_db/entities/log_entity.dart';
@@ -130,12 +129,12 @@ final class SqfliteRepository {
     }
   }
 
-  Future<void> _limitedLogs(LogType logType) async {
+  Future<void> _limitedLogs(ILogType logType) async {
     final logs = <LogEntity>[];
     await _database.query(
       _kLogsTable,
       where: 'type = ?',
-      whereArgs: [logType.name],
+      whereArgs: [logType.label],
     ).then(
       (value) => value.map((e) => logs.add(LogEntity.fromJson(e))).toList(),
     );
