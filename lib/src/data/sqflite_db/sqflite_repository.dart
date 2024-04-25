@@ -3,6 +3,7 @@ import 'package:cr_logger/src/cr_logger_helper.dart';
 import 'package:cr_logger/src/data/sqflite_db/entities/http_entity.dart';
 import 'package:cr_logger/src/data/sqflite_db/entities/log_entity.dart';
 import 'package:path/path.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 final class SqfliteRepository {

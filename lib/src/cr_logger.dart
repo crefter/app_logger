@@ -16,13 +16,12 @@ import 'package:cr_logger/src/providers/sqflite_provider.dart';
 import 'package:cr_logger/src/res/theme.dart';
 import 'package:cr_logger/src/utils/console_log_output.dart';
 import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
-import 'package:cr_logger/src/utils/pretty_cr_printer.dart';
 import 'package:cr_logger/src/utils/show_log_snack_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 typedef BuildTypeCallback = String Function();
 typedef EndpointCallback = String Function();
@@ -123,14 +122,13 @@ final class CRLoggerInitializer {
     bool useCrLoggerInReleaseBuild = false,
     bool useDatabase = false,
     ThemeData? theme,
-    Map<Level, Color>? levelColors,
     List<String>? hiddenFields,
     List<String>? hiddenHeaders,
     String? logFileName,
     int maxCurrentLogsCount = kDefaultMaxLogsCount,
     int maxDatabaseLogsCount = kDefaultMaxLogsCount,
     bool printLogsCompactly = true,
-    Logger? logger,
+    ProximaLogger? logger,
   }) async {
     _useDB = useDatabase;
     _maxDBLogsCount = maxDatabaseLogsCount;
@@ -158,23 +156,7 @@ final class CRLoggerInitializer {
     this.hiddenFields = hiddenFields ?? [];
     this.hiddenHeaders = hiddenHeaders ?? [];
 
-    log.log = logger ??
-        Logger(
-          printer: PrettyCRPrinter(
-            methodCount: 1,
-            errorMethodCount: 40,
-            lineLength: 80,
-            printTime: true,
-            printEmojis: false,
-            levelColors: levelColors,
-            printLogsCompactly: printLogsCompactly,
-          ),
-          output: _consoleLogOutput,
-          filter: useCrLoggerInReleaseBuild
-              ? ProductionFilter()
-              : DevelopmentFilter(),
-          level: Level.trace,
-        );
+    log = logger ?? ProximaLogger();
 
     _rootBackButtonDispatcher.addCallback(_dispatchBackButton);
     if (!kIsWeb && _useDB && useCrLoggerInReleaseBuild) {
@@ -387,13 +369,13 @@ final class CRLoggerInitializer {
 
     switch (event[0]) {
       case 'd':
-        log.d(data.entries.isEmpty ? logData : data);
+        log.debug(message: data.entries.isEmpty ? logData : data);
         break;
       case 'i':
-        log.i(data.entries.isEmpty ? logData : data);
+        log.info(message: data.entries.isEmpty ? logData : data);
         break;
       case 'e':
-        log.e(data.entries.isEmpty ? logData : data);
+        log.error(message: data.entries.isEmpty ? logData : data);
         break;
     }
   }
@@ -461,4 +443,4 @@ final class CRLoggerInitializer {
 }
 
 /// Run LoggerInitializer.instance.init() before using this
-CRLoggerWrapper log = CRLoggerWrapper.instance;
+ProximaLogger log = CRLoggerWrapper.instance;

@@ -11,6 +11,7 @@ import 'package:cr_logger/src/page/logs/log_page.dart';
 import 'package:cr_logger/src/res/colors.dart';
 import 'package:cr_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 import 'package:split_view/split_view.dart';
 
 class MainLogWebPage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
 
   late List<Widget> tabPages;
 
-  LogType _currentLogType = LogType.http;
+  LogType _currentLogType = LogType.request;
   List<double?> _splitWeights = [0.6, 0.4];
 
   HttpBean? _httpBean;
@@ -129,7 +130,7 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
                         key: _navKey,
                         isWeb: true,
                         titles: [
-                          LogType.http.name,
+                          LogType.request.name,
                           LogType.debug.name,
                           LogType.info.name,
                           LogType.error.name,
@@ -235,9 +236,10 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
       case LogType.error:
         LogManager.instance.logError.clear();
         break;
-      case LogType.http:
+      case LogType.request:
         HttpLogManager.instance.cleanAllLogs();
         break;
+      default:
     }
     _updatePages();
   }

@@ -1,6 +1,7 @@
 import 'package:cr_logger/cr_logger.dart';
 import 'package:cr_logger/src/data/sqflite_db/entities/log_entity.dart';
 import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 final class LogEntityConverter {
   final _parser = IsolateParser();

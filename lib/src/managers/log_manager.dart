@@ -5,6 +5,7 @@ import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
 import 'package:cr_logger/src/cr_logger_helper.dart';
 import 'package:cr_logger/src/providers/sqflite_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 final class LogManager {
   LogManager._();
@@ -18,10 +19,18 @@ final class LogManager {
   List<LogBean> logDebug = [];
   List<LogBean> logInfo = [];
   List<LogBean> logError = [];
+  List<LogBean> logWarning = [];
+  List<LogBean> logWtf = [];
+  List<LogBean> logRequest = [];
+  List<LogBean> logResponse = [];
 
   List<LogBean> logDebugDB = [];
   List<LogBean> logInfoDB = [];
   List<LogBean> logErrorDB = [];
+  List<LogBean> logWarningDB = [];
+  List<LogBean> logWtfDB = [];
+  List<LogBean> logRequestDB = [];
+  List<LogBean> logResponseDB = [];
 
   final _provider = SqfliteProvider.instance;
   final _useDB = CRLoggerHelper.instance.useDB;
@@ -119,7 +128,9 @@ final class LogManager {
 
   void addLogToListByType(LogType type, LogBean log) {
     switch (type) {
-      case LogType.http:
+      case LogType.response:
+        logResponse.insert(0, log);
+        logResponse = sortLogsByTime(logResponse);
         break;
       case LogType.debug:
         logDebug.insert(0, log);
@@ -133,6 +144,19 @@ final class LogManager {
         logError.insert(0, log);
         logError = sortLogsByTime(logError);
         break;
+      case LogType.warning:
+        logWarning.insert(0, log);
+        logWarning = sortLogsByTime(logWarning);
+        break;
+      case LogType.wtf:
+        logWtf.insert(0, log);
+        logWtf = sortLogsByTime(logWtf);
+        break;
+      case LogType.request:
+        logRequest.insert(0, log);
+        logRequest = sortLogsByTime(logRequest);
+        break;
+      case LogType.nothing:
     }
 
     onAllUpdate?.call();
@@ -141,7 +165,9 @@ final class LogManager {
 
   void addLogToDBListByType(LogType type, LogBean log) {
     switch (type) {
-      case LogType.http:
+      case LogType.response:
+        logResponseDB.insert(0, log);
+        logResponseDB = sortLogsByTime(logResponseDB);
         break;
       case LogType.debug:
         logDebugDB.insert(0, log);
@@ -155,6 +181,16 @@ final class LogManager {
         logErrorDB.insert(0, log);
         logErrorDB = sortLogsByTime(logErrorDB);
         break;
+      case LogType.warning:
+        logWarningDB.insert(0, log);
+        logWarningDB = sortLogsByTime(logWarningDB);
+      case LogType.wtf:
+        logWtfDB.insert(0, log);
+        logWtfDB = sortLogsByTime(logWtfDB);
+      case LogType.request:
+        logRequestDB.insert(0, log);
+        logRequestDB = sortLogsByTime(logRequestDB);
+      case LogType.nothing:
     }
 
     onAllUpdate?.call();
@@ -211,7 +247,15 @@ final class LogManager {
         final logType = log.type;
 
         switch (logType) {
-          case LogType.http:
+          case LogType.response:
+            if (!keysD.contains(log.id) || getWithCurrentLogs) {
+              logResponseDB.add(log);
+            }
+            break;
+          case LogType.request:
+            if (!keysD.contains(log.id) || getWithCurrentLogs) {
+              logRequestDB.add(log);
+            }
             break;
           case LogType.debug:
             if (!keysD.contains(log.id) || getWithCurrentLogs) {
@@ -228,6 +272,14 @@ final class LogManager {
               logErrorDB.add(log);
             }
             break;
+          case LogType.warning:
+            if (!keysE.contains(log.id) || getWithCurrentLogs) {
+              logWarningDB.add(log);
+            }
+          case LogType.wtf:
+            if (!keysE.contains(log.id) || getWithCurrentLogs) {
+              logWtfDB.add(log);
+            }
           default:
             break;
         }
@@ -251,7 +303,8 @@ final class LogManager {
 
   void _clearLogsByType(LogType type) {
     switch (type) {
-      case LogType.http:
+      case LogType.response:
+        logResponse.clear();
         break;
       case LogType.debug:
         logDebug.clear();
@@ -262,25 +315,43 @@ final class LogManager {
       case LogType.error:
         logError.clear();
         break;
+      case LogType.warning:
+        logWarning.clear();
+        break;
+      case LogType.wtf:
+        logWtf.clear();
+        break;
+      case LogType.request:
+        logRequest.clear();
+        break;
+      case LogType.nothing:
     }
   }
 
   Future<void> _clearDBLogsByType(LogType type) async {
     switch (type) {
-      case LogType.http:
+      case LogType.response:
+        logResponseDB.clear();
         break;
       case LogType.debug:
-        await _deleteSeveralLogs(logDebugDB);
         logDebugDB.clear();
         break;
       case LogType.info:
-        await _deleteSeveralLogs(logInfoDB);
         logInfoDB.clear();
         break;
       case LogType.error:
-        await _deleteSeveralLogs(logErrorDB);
         logErrorDB.clear();
         break;
+      case LogType.warning:
+        logWarningDB.clear();
+        break;
+      case LogType.wtf:
+        logWtfDB.clear();
+        break;
+      case LogType.request:
+        logRequestDB.clear();
+        break;
+      case LogType.nothing:
     }
   }
 
@@ -289,7 +360,4 @@ final class LogManager {
     logInfoDB.clear();
     logErrorDB.clear();
   }
-
-  Future<void> _deleteSeveralLogs(List<LogBean> logs) =>
-      _provider.deleteLogs(logs);
 }

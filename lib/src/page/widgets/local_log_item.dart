@@ -2,7 +2,6 @@ import 'package:cr_json_widget/res/cr_json_color.dart';
 import 'package:cr_logger/src/constants.dart';
 import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
 import 'package:cr_logger/src/data/bean/log_bean.dart';
-import 'package:cr_logger/src/data/models/log_type.dart';
 import 'package:cr_logger/src/extensions/extensions.dart';
 import 'package:cr_logger/src/res/styles.dart';
 import 'package:cr_logger/src/widget/copy_widget.dart';
@@ -11,6 +10,7 @@ import 'package:cr_logger/src/widget/rounded_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 class LocalLogItem extends StatelessWidget {
   const LocalLogItem({

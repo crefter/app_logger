@@ -5,10 +5,10 @@ import 'package:cr_logger/src/js/scripts.dart';
 import 'package:cr_logger/src/utils/html_stub.dart'
     if (dart.library.js) 'dart:html' as html;
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 import 'package:worker_manager/worker_manager.dart';
 
-final class ConsoleLogOutput extends LogOutput {
+final class ConsoleLogOutput extends ILogOutput {
   ConsoleLogOutput() {
     if (kIsWeb) {
       _createWorker();

@@ -10,6 +10,7 @@ import 'package:cr_logger/src/res/styles.dart';
 import 'package:cr_logger/src/utils/show_remove_log_bottom_sheet.dart';
 import 'package:cr_logger/src/utils/show_remove_log_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({
@@ -34,7 +35,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
     super.initState();
     LogManager.instance.onAllUpdate = getCurrentLogs;
     switch (widget.logType) {
-      case LogType.http:
+      case LogType.request:
         break;
       case LogType.debug:
         LogManager.instance.onDebugUpdate = getCurrentLogs;
@@ -45,6 +46,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
       case LogType.error:
         LogManager.instance.onErrorUpdate = getCurrentLogs;
         break;
+      default:
     }
 
     LogManager.instance.onLogsClear = _clearCurrentLogs;
@@ -57,7 +59,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
   void dispose() {
     LogManager.instance.onAllUpdate = null;
     switch (widget.logType) {
-      case LogType.http:
+      case LogType.request:
         break;
       case LogType.debug:
         LogManager.instance.onDebugUpdate = null;
@@ -68,6 +70,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
       case LogType.error:
         LogManager.instance.onErrorUpdate = null;
         break;
+      default:
     }
     _scrollController
       ..removeListener(getCurrentLogs)
@@ -153,7 +156,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
   void _loadFromCurrentSession() {
     var logs = <LogBean>[];
     switch (widget.logType) {
-      case LogType.http:
+      case LogType.request:
         break;
       case LogType.debug:
         logs = LogManager.instance.logDebug.reversed.toList();
@@ -164,6 +167,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
       case LogType.error:
         logs = LogManager.instance.logError.reversed.toList();
         break;
+      default:
     }
 
     _updateContent(logs);
@@ -173,7 +177,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
   void _loadFromDB() {
     var logs = <LogBean>[];
     switch (widget.logType) {
-      case LogType.http:
+      case LogType.request:
         break;
       case LogType.debug:
         logs = LogManager.instance.logDebugDB.reversed.toList();
@@ -184,6 +188,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
       case LogType.error:
         logs = LogManager.instance.logErrorDB.reversed.toList();
         break;
+      default:
     }
 
     _updateContent(logs);

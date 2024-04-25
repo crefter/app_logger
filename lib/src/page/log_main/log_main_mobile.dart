@@ -16,6 +16,7 @@ import 'package:cr_logger/src/res/styles.dart';
 import 'package:cr_logger/src/widget/cr_app_bar.dart';
 import 'package:cr_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 class MainLogMobilePage extends StatefulWidget {
   const MainLogMobilePage({
@@ -63,7 +64,7 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
 
   late List<Widget> tabPages;
 
-  LogType _currentLogType = LogType.http;
+  LogType _currentLogType = LogType.debug;
 
   @override
   void initState() {
@@ -127,7 +128,7 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
                     OptionsButtons(
                       key: _navKey,
                       titles: [
-                        LogType.http.name,
+                        LogType.request.name,
                         LogType.debug.name,
                         LogType.info.name,
                         LogType.error.name,
@@ -172,9 +173,10 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
       case LogType.error:
         LogManager.instance.cleanError();
         break;
-      case LogType.http:
+      case LogType.request:
         HttpLogManager.instance.cleanHTTP();
         break;
+      default:
     }
     _updatePages();
   }

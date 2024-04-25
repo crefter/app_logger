@@ -12,6 +12,7 @@ import 'package:cr_logger/src/utils/show_remove_log_snack_bar.dart';
 import 'package:cr_logger/src/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 
 class LogSearchPage extends StatefulWidget {
   const LogSearchPage({super.key});
@@ -218,10 +219,10 @@ class _LogSearchPageState extends State<LogSearchPage> {
         ),
       );
     } catch (error, stackTrace) {
-      log.e(
-        'Internal logger error',
+      log.error(
+        title: 'Internal logger error',
         error: error,
-        stackTrace: stackTrace,
+        stack: stackTrace,
       );
     }
   }

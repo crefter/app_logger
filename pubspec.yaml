@@ -31,7 +31,7 @@ dependencies:
   # MIT
   chopper: ^7.0.10
   # MIT
-  logger: ^2.0.2+1
+  proxima_logger: ^0.7.2
 
   # BSD
   package_info_plus: ^4.2.0

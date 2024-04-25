@@ -31,10 +31,10 @@ final class ChopperLogInterceptor
     try {
       data = json.decode(response.body as String);
     } catch (error, stackTrace) {
-      log.e(
-        'Chopper interceptor error',
+      log.error(
+        title: 'Chopper interceptor error',
         error: error,
-        stackTrace: stackTrace,
+        stack: stackTrace,
       );
     }
 

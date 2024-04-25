@@ -1,6 +1,6 @@
-import 'package:cr_logger/cr_logger.dart';
 import 'package:cr_logger/src/res/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:proxima_logger/proxima_logger.dart';
 import 'package:uuid/uuid.dart';
 
 final class LogBean implements Comparable<LogBean> {
@@ -14,7 +14,7 @@ final class LogBean implements Comparable<LogBean> {
     this.key,
     String? id,
   })  : id = id ?? const Uuid().v4(),
-        color = type?.getColor() ?? CRLoggerColors.primaryColor;
+        color = CRLoggerColors.primaryColor;
 
   final int? key;
   final String id;
