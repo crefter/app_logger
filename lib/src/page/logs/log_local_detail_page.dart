@@ -1,3 +1,4 @@
+import 'package:cr_logger/src/base/log_type.dart';
 import 'package:cr_logger/src/constants.dart';
 import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
 import 'package:cr_logger/src/cr_logger_helper.dart';
@@ -14,7 +15,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 
 class LogLocalDetailPage extends StatefulWidget {
   const LogLocalDetailPage({

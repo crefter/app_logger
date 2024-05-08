@@ -4,26 +4,34 @@ import 'package:cr_logger/src/res/colors.dart';
 import 'package:cr_logger/src/res/styles.dart';
 import 'package:flutter/material.dart';
 
-class MobileHeaderWidget extends StatelessWidget {
+class MobileHeaderWidget extends StatefulWidget {
   const MobileHeaderWidget({
     required this.onClear,
     required this.onAllClear,
+    required this.label,
     super.key,
   });
 
   final VoidCallback onClear;
   final VoidCallback onAllClear;
+  final String label;
+
+  @override
+  State<MobileHeaderWidget> createState() => _MobileHeaderWidgetState();
+}
+
+class _MobileHeaderWidgetState extends State<MobileHeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Row(
+        Row(
           children: [
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Text(
-              'Logs',
+              widget.label,
               style: CRStyle.subtitle1BlackSemiBold16,
             ),
           ],
@@ -31,8 +39,8 @@ class MobileHeaderWidget extends StatelessWidget {
         Row(
           children: [
             TextButton(
-              onPressed: onClear,
-              onLongPress: onAllClear,
+              onPressed: widget.onClear,
+              onLongPress: widget.onAllClear,
               style: TextButton.styleFrom(
                 minimumSize: const Size(0, 20),
                 padding: const EdgeInsets.symmetric(

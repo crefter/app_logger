@@ -6,17 +6,17 @@ import 'package:cr_logger/src/controllers/logs_mode.dart';
 import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
 import 'package:cr_logger/src/cr_logger_helper.dart';
 import 'package:cr_logger/src/providers/sqflite_provider.dart';
-import 'package:cr_logger/src/utils/pretty_cr_logger.dart';
 
 final class HttpLogManager {
   HttpLogManager._();
 
   static HttpLogManager instance = HttpLogManager._();
-
-  final _prettyCRLogger = PrettyCRLogger();
   final _provider = SqfliteProvider.instance;
   final _useDB = CRLoggerHelper.instance.useDB;
-  final _printLogs = CRLoggerHelper.instance.printLogs;
+
+  void Function(HttpBean)? addResponse;
+  void Function(HttpBean)? addRequest;
+  void Function(HttpBean)? addError;
 
   LinkedHashMap<String, HttpBean> logMap = LinkedHashMap<String, HttpBean>();
 
@@ -29,9 +29,6 @@ final class HttpLogManager {
   Function? updateSearchHttpPage;
 
   void onError(ErrorBean err) {
-    if (_printLogs) {
-      _prettyCRLogger.onError(err);
-    }
     final key = err.id.toString();
     if (logMap.containsKey(key)) {
       logMap.update(key, (value) {
@@ -44,6 +41,7 @@ final class HttpLogManager {
           ..error = err
           ..key = err.id;
         updateHttpLog(value);
+        addError?.call(value);
 
         return value;
       });
@@ -55,10 +53,6 @@ final class HttpLogManager {
 
   void onRequest(RequestBean options) {
     _handleStreamInRequestBody(options);
-
-    if (_printLogs) {
-      _prettyCRLogger.onRequest(options);
-    }
     final key = options.id.toString();
     if (!keys.contains(key)) {
       if (logMap.length >= maxLogsCount) {
@@ -72,6 +66,7 @@ final class HttpLogManager {
         value.key = id;
         saveHttpLog(value);
       }
+      addRequest?.call(value);
 
       updateSearchHttpPage?.call();
       updateHttpPage?.call();
@@ -79,9 +74,6 @@ final class HttpLogManager {
   }
 
   Future<void> onResponse(ResponseBean response) async {
-    if (_printLogs) {
-      await _prettyCRLogger.onResponse(response);
-    }
     final key = response.id.toString();
     if (logMap.containsKey(key)) {
       logMap.update(key, (value) {
@@ -96,6 +88,7 @@ final class HttpLogManager {
           value.key = id;
           updateHttpLog(value);
         }
+        addResponse?.call(value);
 
         return value;
       });

@@ -12,7 +12,7 @@ class JsonWidget extends StatefulWidget {
     super.key,
   });
 
-  final Map<String, dynamic>? jsonObj;
+  final dynamic jsonObj;
   final bool? notRoot;
   final Widget? caption;
   final bool allExpandedNodes;
@@ -51,19 +51,48 @@ class JsonWidgetState extends State<JsonWidget> {
                     padding: const EdgeInsets.only(bottom: 3),
                     child: widget.caption,
                   ),
+                if (jsonObj is List)
+                  CustomScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    slivers: [
+                      if (_jsonWithHiddenParameters != null)
+                        CrJsonRecyclerSliver(
+                          jsonController: _jsonCtr,
+                          json: _jsonWithHiddenParameters,
+                          rootExpanded: true,
+                        )
+                      else
+                        SliverToBoxAdapter(
+                          child: Text(jsonObj.toString()),
+                        ),
+                    ],
+                  )
+                else
 
-                /// JsonTreeView
-                CustomScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  slivers: [
-                    CrJsonRecyclerSliver(
-                      jsonController: _jsonCtr,
-                      json: _jsonWithHiddenParameters,
-                      rootExpanded: true,
-                    ),
-                  ],
-                ),
+                  /// JsonTreeView
+                  CustomScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    slivers: [
+                      if (jsonObj is Map<String, dynamic>)
+                        CrJsonRecyclerSliver(
+                          jsonController: _jsonCtr,
+                          json: _jsonWithHiddenParameters,
+                          rootExpanded: true,
+                        ),
+                      if (jsonObj is List)
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final element = jsonObj[index];
+                              return Text(element.toString());
+                            },
+                            childCount: jsonObj.length,
+                          ),
+                        ),
+                    ],
+                  ),
               ],
             ),
           );
@@ -73,6 +102,7 @@ class JsonWidgetState extends State<JsonWidget> {
   void didUpdateWidget(covariant JsonWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     _updateNodes();
+
     if (oldWidget.allExpandedNodes != widget.allExpandedNodes) {
       _jsonCtr.changeState();
     }
@@ -91,8 +121,18 @@ class JsonWidgetState extends State<JsonWidget> {
   }
 
   void _updateNodes() {
-    if (widget.jsonObj != null) {
+    if (widget.jsonObj == null) return;
+    if (widget.jsonObj is List && widget.jsonObj.isEmpty) return;
+
+    if (widget.jsonObj is Map<String, dynamic>) {
       _jsonWithHiddenParameters = _toTreeJson(widget.jsonObj!);
+    } else if (widget.jsonObj is List) {
+      final resultMap = <String, dynamic>{};
+      var index = 0;
+      (widget.jsonObj as List).forEach(
+        (element) => resultMap['${index++}'] = element,
+      );
+      _jsonWithHiddenParameters = resultMap;
     }
   }
 }

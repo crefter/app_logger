@@ -1,4 +1,5 @@
 import 'package:cr_logger/cr_logger.dart';
+import 'package:cr_logger/src/base/log_type.dart';
 import 'package:cr_logger/src/cr_logger_helper.dart';
 import 'package:cr_logger/src/extensions/do_post_frame.dart';
 import 'package:cr_logger/src/managers/log_manager.dart';
@@ -11,7 +12,6 @@ import 'package:cr_logger/src/page/logs/log_page.dart';
 import 'package:cr_logger/src/res/colors.dart';
 import 'package:cr_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 import 'package:split_view/split_view.dart';
 
 class MainLogWebPage extends StatefulWidget {
@@ -37,6 +37,22 @@ class MainLogWebPage extends StatefulWidget {
 
   static void cleanError() {
     LogManager.instance.cleanError();
+  }
+
+  static void cleanWarning() {
+    LogManager.instance.cleanWarning();
+  }
+
+  static void cleanAnalytics() {
+    LogManager.instance.cleanAnalytics();
+  }
+
+  static void cleanRoute() {
+    LogManager.instance.cleanRoute();
+  }
+
+  static void cleanNotification() {
+    LogManager.instance.cleanNotification();
   }
 
   @override
@@ -238,6 +254,18 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
         break;
       case LogType.request:
         HttpLogManager.instance.cleanAllLogs();
+        break;
+      case LogType.warning:
+        LogManager.instance.logWarning.clear();
+        break;
+      case LogType.route:
+        LogManager.instance.logRoute.clear();
+        break;
+      case LogType.notification:
+        LogManager.instance.logNotification.clear();
+        break;
+      case LogType.analytics:
+        LogManager.instance.logAnalytics.clear();
         break;
       default:
     }

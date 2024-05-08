@@ -1,7 +1,6 @@
 import 'package:cr_logger/cr_logger.dart';
 import 'package:cr_logger/src/data/sqflite_db/entities/log_entity.dart';
 import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 
 final class LogEntityConverter {
   final _parser = IsolateParser();
@@ -17,6 +16,7 @@ final class LogEntityConverter {
       data: data != null ? await _parser.decode(data) : null,
       key: inObject.key,
       type: inObject.type,
+      title: inObject.title,
     );
   }
 
@@ -31,6 +31,7 @@ final class LogEntityConverter {
       type: outObject.type ?? LogType.info,
       id: outObject.id,
       key: outObject.key ?? 0,
+      title: outObject.title ?? '',
     );
   }
 }

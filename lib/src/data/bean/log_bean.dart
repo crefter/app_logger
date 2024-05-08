@@ -8,6 +8,7 @@ final class LogBean implements Comparable<LogBean> {
     required this.message,
     required this.time,
     required this.stackTrace,
+    this.title,
     this.showToast = false,
     this.type,
     this.data = const {},
@@ -19,6 +20,7 @@ final class LogBean implements Comparable<LogBean> {
   final int? key;
   final String id;
   final dynamic message;
+  final String? title;
   final DateTime time;
   final String? stackTrace;
   final Map<String, dynamic>? data;

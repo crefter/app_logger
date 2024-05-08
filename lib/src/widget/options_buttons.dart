@@ -34,6 +34,7 @@ class OptionsButtons extends StatefulWidget implements PreferredSizeWidget {
 
 class OptionsButtonsState extends State<OptionsButtons> {
   final _selected = <int, bool>{};
+  var _selectedIndex = 0;
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class OptionsButtonsState extends State<OptionsButtons> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     height: 40,
                     decoration: BoxDecoration(
-                      color: _isSelected(index)
+                      color: _selectedIndex == index
                           ? widget.activeColor
                           : widget.disableColor ?? widget.backgroundColor,
                       borderRadius: BorderRadius.circular(21),
@@ -73,7 +74,7 @@ class OptionsButtonsState extends State<OptionsButtons> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           widget.titles[index],
-                          style: _isSelected(index)
+                          style: _selectedIndex == index
                               ? CRStyle.subtitle1WhiteSemiBold16
                               : CRStyle.subtitle1BlackMedium16,
                         ),
@@ -90,7 +91,7 @@ class OptionsButtonsState extends State<OptionsButtons> {
                       ),
                       height: 38,
                       decoration: BoxDecoration(
-                        color: _isSelected(index)
+                        color: _selectedIndex == index
                             ? widget.activeColor
                             : widget.disableColor ?? widget.backgroundColor,
                         borderRadius: BorderRadius.circular(21),
@@ -100,7 +101,7 @@ class OptionsButtonsState extends State<OptionsButtons> {
                           fit: BoxFit.scaleDown,
                           child: Text(
                             widget.titles[index],
-                            style: _isSelected(index)
+                            style: _selectedIndex == index
                                 ? CRStyle.subtitle1WhiteSemiBold16
                                 : CRStyle.subtitle1BlackMedium16,
                           ),
@@ -118,6 +119,7 @@ class OptionsButtonsState extends State<OptionsButtons> {
     setState(() {
       _selected.updateAll((key, value) => value = key == index);
     });
+    _selectedIndex = index;
   }
 
   void _onTap(int index) {
@@ -125,9 +127,6 @@ class OptionsButtonsState extends State<OptionsButtons> {
     doPostFrame(
       () => widget.onSelected(index),
     );
-  }
-
-  bool _isSelected(int index) {
-    return _selected[index] ?? false;
+    _selectedIndex = index;
   }
 }

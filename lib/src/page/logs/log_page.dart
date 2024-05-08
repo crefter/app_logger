@@ -10,7 +10,6 @@ import 'package:cr_logger/src/res/styles.dart';
 import 'package:cr_logger/src/utils/show_remove_log_bottom_sheet.dart';
 import 'package:cr_logger/src/utils/show_remove_log_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({
@@ -46,6 +45,18 @@ class LogPageState extends BasePageWithProgress<LogPage> {
       case LogType.error:
         LogManager.instance.onErrorUpdate = getCurrentLogs;
         break;
+      case LogType.warning:
+        LogManager.instance.onWarningUpdate = getCurrentLogs;
+        break;
+      case LogType.route:
+        LogManager.instance.onRouteUpdate = getCurrentLogs;
+        break;
+      case LogType.notification:
+        LogManager.instance.onNotificationUpdate = getCurrentLogs;
+        break;
+      case LogType.analytics:
+        LogManager.instance.onAnalyticsUpdate = getCurrentLogs;
+        break;
       default:
     }
 
@@ -69,6 +80,18 @@ class LogPageState extends BasePageWithProgress<LogPage> {
         break;
       case LogType.error:
         LogManager.instance.onErrorUpdate = null;
+        break;
+      case LogType.warning:
+        LogManager.instance.onWarningUpdate = null;
+        break;
+      case LogType.route:
+        LogManager.instance.onRouteUpdate = null;
+        break;
+      case LogType.notification:
+        LogManager.instance.onNotificationUpdate = null;
+        break;
+      case LogType.analytics:
+        LogManager.instance.onAnalyticsUpdate = null;
         break;
       default:
     }
@@ -167,6 +190,18 @@ class LogPageState extends BasePageWithProgress<LogPage> {
       case LogType.error:
         logs = LogManager.instance.logError.reversed.toList();
         break;
+      case LogType.warning:
+        logs = LogManager.instance.logWarning.reversed.toList();
+        break;
+      case LogType.route:
+        logs = LogManager.instance.logRoute.reversed.toList();
+        break;
+      case LogType.notification:
+        logs = LogManager.instance.logNotification.reversed.toList();
+        break;
+      case LogType.analytics:
+        logs = LogManager.instance.logAnalytics.reversed.toList();
+        break;
       default:
     }
 
@@ -187,6 +222,18 @@ class LogPageState extends BasePageWithProgress<LogPage> {
         break;
       case LogType.error:
         logs = LogManager.instance.logErrorDB.reversed.toList();
+        break;
+      case LogType.warning:
+        logs = LogManager.instance.logWarningDB.reversed.toList();
+        break;
+      case LogType.route:
+        logs = LogManager.instance.logRouteDB.reversed.toList();
+        break;
+      case LogType.notification:
+        logs = LogManager.instance.logNotificationDB.reversed.toList();
+        break;
+      case LogType.analytics:
+        logs = LogManager.instance.logAnalyticsDB.reversed.toList();
         break;
       default:
     }
@@ -235,6 +282,8 @@ class LogPageState extends BasePageWithProgress<LogPage> {
   void _removeLog(LogBean logBean) {
     LogManager.instance.removeLog(logBean);
     _currentLogs.removeWhere((element) => element.id == logBean.id);
+    /// TEST
+    _update();
   }
 
   Future<void> _insertLog(LogBean logBean) async {

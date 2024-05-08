@@ -38,6 +38,7 @@ final class CRLoggerInitializer {
   final _rootBackButtonDispatcher = RootBackButtonDispatcher();
   late final CRHttpClientAdapter _httpClientAdapter;
   late final CRHttpAdapter _httpAdapter;
+  Widget? _debugScreen;
 
   /// Callback for sharing logs file on the app's side.
   ValueChanged<String>? onShareLogsFile;
@@ -126,12 +127,14 @@ final class CRLoggerInitializer {
     int maxDatabaseLogsCount = kDefaultMaxLogsCount,
     bool printLogsCompactly = true,
     ProximaLogger? logger,
+    Widget? debugScreen,
   }) async {
     _useDB = useDatabase;
     _maxDBLogsCount = maxDatabaseLogsCount;
     _maxCurrentLogsCount = maxCurrentLogsCount;
     _printLogs = printLogs;
     _useCrLoggerInReleaseBuild = useCrLoggerInReleaseBuild;
+    _debugScreen = debugScreen;
 
     if (inited) {
       return;
@@ -217,15 +220,21 @@ final class CRLoggerInitializer {
     await TransferManager().createLogsFromJson(json);
   }
 
+  Future<({File file, String path})> createJsonLogsFile({String? json}) async {
+    return TransferManager().createJsonLogsFile(json: json);
+  }
+
   /// Show global hover debug buttons
   // ignore: Long-Parameter-List
   void showDebugButton(
     BuildContext context, {
     Widget? button,
+    Widget? debugScreen,
     bool isDelay = true,
     double left = 100,
     double top = 4,
   }) {
+    _debugScreen = debugScreen;
     LogManager.instance.onLogAdded = _showLogToast;
 
     WidgetsBinding.instance.addPostFrameCallback(
@@ -390,6 +399,7 @@ final class CRLoggerInitializer {
         builder: (context) => MainLogPage(
           navigationKey: _loggerNavigationKey,
           onLoggerClose: _onLoggerClose,
+          debugScreen: _debugScreen,
         ),
       );
       _loggerEntry = newLoggerEntry;
@@ -440,4 +450,4 @@ final class CRLoggerInitializer {
 }
 
 /// Run LoggerInitializer.instance.init() before using this
-ProximaLogger log = CRLoggerWrapper.instance;
+late ProximaLogger log;

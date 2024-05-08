@@ -1,25 +1,35 @@
 import 'package:cr_logger/cr_logger.dart';
 import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:proxima_logger/proxima_logger.dart';
+import 'package:proxima_logger/proxima_logger.dart' hide LogType;
 
-final class CRLoggerWrapper extends ProximaLogger {
+final class CRLoggerWrapper extends ProximaLogger with LoggerToWidgetMixin {
   CRLoggerWrapper._();
 
   static final CRLoggerWrapper instance = CRLoggerWrapper._();
 
   @override
-  void log(ILogType type, {String? title, error, StackTrace? stack, message}) {
-    super.log(type, title: title, error:  error, stack:  stack, message:  message);
-    _addToLogWidget(type, message, stack.toString());
+  void log(
+    ILogType type, {
+    String? title,
+    dynamic error,
+    StackTrace? stack,
+    dynamic message,
+  }) {
+    super.log(type, title: title, error: error, stack: stack, message: message);
+    addToLogWidget(type, title, message, stack.toString());
   }
+}
 
-  void _addToLogWidget(
-      ILogType type,
-      dynamic message,
-      String? stacktrace,
-      ) {
+mixin LoggerToWidgetMixin on ProximaLogger {
+  void addToLogWidget(
+    ILogType type,
+    String? title,
+    dynamic message,
+    String? stacktrace,
+  ) {
     final logModel = LogBean(
       message: message ?? '',
+      title: title ?? '',
       time: DateTime.now(),
       stackTrace: stacktrace ?? '',
       type: type,
@@ -36,7 +46,17 @@ final class CRLoggerWrapper extends ProximaLogger {
       case LogType.error:
         LogManager.instance.addError(logModel);
         break;
-      default:
+      case LogType.route:
+        LogManager.instance.addRoute(logModel);
+        break;
+      case LogType.warning:
+        LogManager.instance.addWarning(logModel);
+        break;
+      case LogType.notification:
+        LogManager.instance.addNotification(logModel);
+        break;
+      case LogType.analytics:
+        LogManager.instance.addAnalytics(logModel);
         break;
     }
   }

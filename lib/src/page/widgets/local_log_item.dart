@@ -1,4 +1,5 @@
 import 'package:cr_json_widget/res/cr_json_color.dart';
+import 'package:cr_logger/src/base/log_type.dart';
 import 'package:cr_logger/src/constants.dart';
 import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
 import 'package:cr_logger/src/data/bean/log_bean.dart';
@@ -10,7 +11,6 @@ import 'package:cr_logger/src/widget/rounded_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 
 class LocalLogItem extends StatelessWidget {
   const LocalLogItem({
@@ -33,6 +33,7 @@ class LocalLogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logMessage = logBean.message;
+    final logTitle = logBean.title;
 
     final isJsonData = logMessage is Map<String, dynamic>;
     final logTap = onLongTap;
@@ -54,6 +55,7 @@ class LocalLogItem extends StatelessWidget {
       onLongTap: logTap != null ? () => logTap(logBean) : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           if (isJsonData) ...[
             /// Json title
@@ -73,19 +75,28 @@ class LocalLogItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ] else
-            Row(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 /// Title
-                Expanded(
-                  child: Text(
-                    logMessage.toString().replaceAll(patternOfParamsRegex, ''),
-                    style:
-                        CRStyle.bodyGreyMedium14.copyWith(color: logBean.color),
+                if (logTitle != null)
+                  Text(
+                    'TITLE: ${logTitle.toString().replaceAll(patternOfParamsRegex, '')}',
+                    style: CRStyle.bodyGreyMedium14
+                        .copyWith(color: logBean.color),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
+
+                /// Message
+                Text(
+                  'MESSAGE: ${logMessage.toString().replaceAll(patternOfParamsRegex, '')}',
+                  style:
+                      CRStyle.bodyGreyMedium14.copyWith(color: logBean.color),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(width: 10),
 
@@ -116,17 +127,23 @@ class LocalLogItem extends StatelessWidget {
   void _onCopy(BuildContext context) {
     final logMessage =
         logBean.message.toString().replaceAll(patternOfParamsRegex, '');
+    final logTitle = logBean.title == null
+        ? ''
+        : logBean.title.toString().replaceAll(patternOfParamsRegex, '');
 
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Copy \n"$logMessage"',
+          'Copy \n"${logTitle.isEmpty ? '' : "$logTitle\n\n"}$logMessage"',
           maxLines: 4,
           overflow: TextOverflow.ellipsis,
         ),
       ),
     );
-    Clipboard.setData(ClipboardData(text: logMessage));
+    Clipboard.setData(
+      ClipboardData(
+          text: '${logTitle.isEmpty ? '' : "$logTitle\n\n"}$logMessage'),
+    );
   }
 }

@@ -9,6 +9,7 @@ final class LogEntity {
     required this.time,
     required this.stackTrace,
     required this.type,
+    required this.title,
     this.data = '',
     this.key,
   });
@@ -22,12 +23,14 @@ final class LogEntity {
       type: LogType.values.valueOf(json['type']) ?? LogType.info,
       data: json['data'],
       id: json['id'],
+      title: json['title'],
     );
   }
 
   final int? key;
   final String id;
   final String message;
+  final String? title;
   final DateTime? time;
   final String? stackTrace;
   final String? data;
@@ -42,6 +45,7 @@ final class LogEntity {
       'stacktrace': stackTrace?.toString(),
       'data': data?.toString(),
       'type': type.label.toString(),
+      'title': title.toString(),
     };
 
     // ignore: cascade_invocations

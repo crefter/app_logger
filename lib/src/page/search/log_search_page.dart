@@ -12,7 +12,6 @@ import 'package:cr_logger/src/utils/show_remove_log_snack_bar.dart';
 import 'package:cr_logger/src/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 
 class LogSearchPage extends StatefulWidget {
   const LogSearchPage({super.key});
@@ -116,6 +115,13 @@ class _LogSearchPageState extends State<LogSearchPage> {
     final logsDebug = _isCurrentLogMode ? _logMng.logDebug : _logMng.logDebugDB;
     final logsInfo = _isCurrentLogMode ? _logMng.logInfo : _logMng.logInfoDB;
     final logsError = _isCurrentLogMode ? _logMng.logError : _logMng.logErrorDB;
+    final logsWarning =
+        _isCurrentLogMode ? _logMng.logWarning : _logMng.logWarningDB;
+    final logsAnalytics =
+        _isCurrentLogMode ? _logMng.logAnalytics : _logMng.logAnalyticsDB;
+    final logsNotification =
+        _isCurrentLogMode ? _logMng.logNotification : _logMng.logNotificationDB;
+    final logsRoute = _isCurrentLogMode ? _logMng.logRoute : _logMng.logRouteDB;
     if (query.isNotEmpty) {
       setState(() {
         _results
@@ -123,7 +129,9 @@ class _LogSearchPageState extends State<LogSearchPage> {
           ..addAll(
             logsDebug.reversed
                 .where(
-                  (log) => log.message.toString().toLowerCase().contains(query),
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
                 )
                 .map(
                   (e) => Pair(first: LogType.debug, second: e),
@@ -131,18 +139,68 @@ class _LogSearchPageState extends State<LogSearchPage> {
           )
           ..addAll(
             logsInfo.reversed
-                .where((log) =>
-                    log.message.toString().toLowerCase().contains(query))
+                .where(
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
+                )
                 .map(
                   (e) => Pair(first: LogType.info, second: e),
                 ),
           )
           ..addAll(
             logsError.reversed
-                .where((log) =>
-                    log.message.toString().toLowerCase().contains(query))
+                .where(
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
+                )
                 .map(
                   (e) => Pair(first: LogType.error, second: e),
+                ),
+          )
+          ..addAll(
+            logsWarning.reversed
+                .where(
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
+                )
+                .map(
+                  (e) => Pair(first: LogType.warning, second: e),
+                ),
+          )
+          ..addAll(
+            logsAnalytics.reversed
+                .where(
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
+                )
+                .map(
+                  (e) => Pair(first: LogType.analytics, second: e),
+                ),
+          )
+          ..addAll(
+            logsNotification.reversed
+                .where(
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
+                )
+                .map(
+                  (e) => Pair(first: LogType.notification, second: e),
+                ),
+          )
+          ..addAll(
+            logsRoute.reversed
+                .where(
+                  (log) =>
+                      log.message.toString().toLowerCase().contains(query) ||
+                      log.title.toString().toLowerCase().contains(query),
+                )
+                .map(
+                  (e) => Pair(first: LogType.route, second: e),
                 ),
           )
           ..sort((a, b) => a.second.compareTo(b.second));

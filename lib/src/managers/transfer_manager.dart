@@ -41,14 +41,20 @@ final class TransferManager {
         return;
       }
 
-      final tempDir = await getTemporaryDirectory();
-
-      final path =
-          '${tempDir.path}/${CRLoggerInitializer.instance.logFileName}.json';
-      final file = await File(path).create();
-      await file.writeAsString(json);
+      final (file: _, path: path) = await createJsonLogsFile(json: json);
       CRLoggerInitializer.instance.onShareLogsFile?.call(path);
     }
+  }
+
+  Future<({File file, String path})> createJsonLogsFile({String? json}) async {
+    final resultJson = json ?? await _parser.encode(await _toJson());
+    final tempDir = await getTemporaryDirectory();
+
+    final path =
+        '${tempDir.path}/${CRLoggerInitializer.instance.logFileName}.json';
+    final file = await File(path).create();
+    await file.writeAsString(resultJson);
+    return (file: file, path: path);
   }
 
   Future<void> createLogsFromJsonFile(File file) async {
@@ -87,29 +93,22 @@ final class TransferManager {
       await _httpLogsToJson(_httpMng.logsFromDB);
     }
 
+    final logs = [..._logMng.allLogs];
+
     return {
-      'http': await _httpLogsToJson(
-        _useDB
-            ? _httpMng.logsFromDB
-            : _httpMng.logMap.entries.map((e) => e.value).toList(),
-      ),
-      'debug': await _logModelsToJson(
-        _useDB ? _logMng.logDebugDB : _logMng.logDebug,
-      ),
-      'info': await _logModelsToJson(
-        _useDB ? _logMng.logInfoDB : _logMng.logInfo,
-      ),
-      'error': await _logModelsToJson(
-        _useDB ? _logMng.logErrorDB : _logMng.logError,
-      ),
+      'LOGS': await _logModelsToJson(logs),
     };
   }
 
   Future<void> _setLogsFromJson(Map<String, dynamic> json) async {
-    final http = json['http'];
-    final debug = json['debug'];
-    final info = json['info'];
-    final error = json['error'];
+    final http = json[LogType.request.name];
+    final debug = json[LogType.debug.name];
+    final info = json[LogType.info.name];
+    final error = json[LogType.error.name];
+    final warning = json[LogType.warning.name];
+    final analytics = json[LogType.analytics.name];
+    final notification = json[LogType.notification.name];
+    final route = json[LogType.route.name];
 
     if (http is List) {
       await _httpLogsFromJson(
@@ -132,6 +131,34 @@ final class TransferManager {
     }
     if (error is List) {
       _logMng.logError.addAll(
+        await _logModelsFromJson(
+          error.map((e) => e as Map<String, dynamic>).toList(),
+        ),
+      );
+    }
+    if (warning is List) {
+      _logMng.logWarning.addAll(
+        await _logModelsFromJson(
+          error.map((e) => e as Map<String, dynamic>).toList(),
+        ),
+      );
+    }
+    if (analytics is List) {
+      _logMng.logAnalytics.addAll(
+        await _logModelsFromJson(
+          error.map((e) => e as Map<String, dynamic>).toList(),
+        ),
+      );
+    }
+    if (notification is List) {
+      _logMng.logNotification.addAll(
+        await _logModelsFromJson(
+          error.map((e) => e as Map<String, dynamic>).toList(),
+        ),
+      );
+    }
+    if (route is List) {
+      _logMng.logRoute.addAll(
         await _logModelsFromJson(
           error.map((e) => e as Map<String, dynamic>).toList(),
         ),

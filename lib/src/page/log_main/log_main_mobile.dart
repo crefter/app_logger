@@ -16,10 +16,62 @@ import 'package:cr_logger/src/res/styles.dart';
 import 'package:cr_logger/src/widget/cr_app_bar.dart';
 import 'package:cr_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:proxima_logger/proxima_logger.dart';
 
 class MainLogMobilePage extends StatefulWidget {
   const MainLogMobilePage({
+    required this.onLoggerClose,
+    super.key,
+    this.debugScreen,
+  });
+
+  final Widget? debugScreen;
+  final VoidCallback onLoggerClose;
+
+  @override
+  State<StatefulWidget> createState() => MainLogMobilePageState();
+}
+
+class MainLogMobilePageState extends State<MainLogMobilePage> {
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.debugScreen == null) {
+      return LogsPage(onLoggerClose: widget.onLoggerClose);
+    }
+
+    return Scaffold(
+      body: IndexedStack(
+        index: currentIndex,
+        children: [
+          LogsPage(onLoggerClose: widget.onLoggerClose),
+          widget.debugScreen!,
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (value) {
+          setState(() {
+            currentIndex = value;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.text_snippet),
+            label: 'Logs',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.error_outlined),
+            label: 'Debug',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class LogsPage extends StatefulWidget {
+  const LogsPage({
     required this.onLoggerClose,
     super.key,
   });
@@ -46,11 +98,27 @@ class MainLogMobilePage extends StatefulWidget {
     LogManager.instance.cleanError();
   }
 
+  static void cleanWarning() {
+    LogManager.instance.cleanWarning();
+  }
+
+  static void cleanAnalytics() {
+    LogManager.instance.cleanAnalytics();
+  }
+
+  static void cleanRoute() {
+    LogManager.instance.cleanRoute();
+  }
+
+  static void cleanNotification() {
+    LogManager.instance.cleanNotification();
+  }
+
   @override
-  _MainLogMobilePageState createState() => _MainLogMobilePageState();
+  _LogsPageState createState() => _LogsPageState();
 }
 
-class _MainLogMobilePageState extends State<MainLogMobilePage> {
+class _LogsPageState extends State<LogsPage> {
   final _pageController = PageController();
   final _logsMode = LogsModeController.instance.logMode;
 
@@ -61,10 +129,14 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
   final _debugLogKey = GlobalKey<LogPageState>();
   final _infoLogKey = GlobalKey<LogPageState>();
   final _errorLogKey = GlobalKey<LogPageState>();
+  final _warningLogKey = GlobalKey<LogPageState>();
+  final _routeLogKey = GlobalKey<LogPageState>();
+  final _notificationLogKey = GlobalKey<LogPageState>();
+  final _analyticsLogKey = GlobalKey<LogPageState>();
 
   late List<Widget> tabPages;
 
-  LogType _currentLogType = LogType.debug;
+  final ValueNotifier<LogType> _currentLogType = ValueNotifier(LogType.request);
 
   @override
   void initState() {
@@ -74,6 +146,10 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
       LogPage(key: _debugLogKey, logType: LogType.debug),
       LogPage(key: _infoLogKey, logType: LogType.info),
       LogPage(key: _errorLogKey, logType: LogType.error),
+      LogPage(key: _warningLogKey, logType: LogType.warning),
+      LogPage(key: _routeLogKey, logType: LogType.route),
+      LogPage(key: _notificationLogKey, logType: LogType.notification),
+      LogPage(key: _analyticsLogKey, logType: LogType.analytics),
     ];
     _pageController.addListener(_onPageChanged);
     LogManager.instance.logToastNotifier.addListener(_openLogDetails);
@@ -121,27 +197,34 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
           padding: const EdgeInsets.only(top: 8),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    OptionsButtons(
-                      key: _navKey,
-                      titles: [
-                        LogType.request.name,
-                        LogType.debug.name,
-                        LogType.info.name,
-                        LogType.error.name,
-                      ],
-                      onSelected: _onOptionSelected,
-                    ),
-                    const SizedBox(height: 16),
-                    MobileHeaderWidget(
-                      onClear: _onClear,
-                      onAllClear: _onAllClear,
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  OptionsButtons(
+                    key: _navKey,
+                    titles: [
+                      LogType.request.emoji,
+                      LogType.debug.emoji,
+                      LogType.info.emoji,
+                      LogType.error.emoji,
+                      LogType.warning.emoji,
+                      LogType.route.emoji,
+                      LogType.notification.emoji,
+                      LogType.analytics.emoji,
+                    ],
+                    onSelected: _onOptionSelected,
+                  ),
+                  const SizedBox(height: 16),
+                  ValueListenableBuilder(
+                    valueListenable: _currentLogType,
+                    builder: (_, LogType value, __) {
+                      return MobileHeaderWidget(
+                        onClear: _onClear,
+                        onAllClear: _onAllClear,
+                        label: value.label,
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               Expanded(
@@ -163,7 +246,7 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
   }
 
   void _onClear() {
-    switch (_currentLogType) {
+    switch (_currentLogType.value) {
       case LogType.debug:
         LogManager.instance.cleanDebug();
         break;
@@ -176,6 +259,18 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
       case LogType.request:
         HttpLogManager.instance.cleanHTTP();
         break;
+      case LogType.warning:
+        LogManager.instance.cleanWarning();
+        break;
+      case LogType.route:
+        LogManager.instance.cleanRoute();
+        break;
+      case LogType.notification:
+        LogManager.instance.cleanNotification();
+        break;
+      case LogType.analytics:
+        LogManager.instance.cleanAnalytics();
+        break;
       default:
     }
     _updatePages();
@@ -183,20 +278,50 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
 
   void _updatePages() {
     doPostFrame(() {
-      (tabPages[_currentLogType.index].key as GlobalKey)
+      (tabPages[_getIndexByLogType(_currentLogType.value)].key as GlobalKey)
           .currentState
           // ignore: no-empty-block
           ?.setState(() {});
     });
   }
 
+  LogType _getLogTypeByIndex(int index) {
+    return switch (index) {
+      0 => LogType.request,
+      1 => LogType.debug,
+      2 => LogType.info,
+      3 => LogType.error,
+      4 => LogType.warning,
+      5 => LogType.route,
+      6 => LogType.notification,
+      7 => LogType.analytics,
+      _ => LogType.debug,
+    };
+  }
+
+  int _getIndexByLogType(LogType logType) {
+    return switch (logType) {
+      LogType.info => 2,
+      LogType.debug => 1,
+      LogType.warning => 4,
+      LogType.error => 3,
+      LogType.request => 0,
+      LogType.route => 5,
+      LogType.notification => 6,
+      LogType.analytics => 7,
+      _ => 0,
+    };
+  }
+
   void _onPageChanged() {
-    _currentLogType = LogType.values[_pageController.page?.round() ?? 0];
-    _navKey.currentState?.change(_currentLogType.index);
+    _currentLogType.value =
+        _getLogTypeByIndex(_pageController.page?.round() ?? 0);
+    _navKey.currentState?.change(_getIndexByLogType(_currentLogType.value));
   }
 
   void _onOptionSelected(int index) {
-    _currentLogType = LogType.values[index];
+    _currentLogType.value =
+        _getLogTypeByIndex(_pageController.page?.round() ?? 0);
     _pageController.jumpToPage(index);
   }
 
@@ -218,7 +343,7 @@ class _MainLogMobilePageState extends State<MainLogMobilePage> {
         (Route<dynamic> route) => route.settings.name == '/',
       );
 
-      _pageController.jumpToPage(logType.index);
+      _pageController.jumpToPage(_getIndexByLogType(logType));
       LogManager.instance.logToastNotifier.value = null;
     }
   }

@@ -11,16 +11,22 @@ class MainLogPage extends StatefulWidget {
     required this.navigationKey,
     required this.onLoggerClose,
     super.key,
+    this.debugScreen,
   });
 
   final GlobalKey<NavigatorState> navigationKey;
   final VoidCallback onLoggerClose;
+  final Widget? debugScreen;
 
   static void cleanLogs() {
     cleanDebug();
     cleanError();
     cleanInfo();
     cleanHttpLogs();
+    cleanAnalytics();
+    cleanNotification();
+    cleanRoute();
+    cleanWarning();
   }
 
   static void cleanHttpLogs() {
@@ -37,6 +43,22 @@ class MainLogPage extends StatefulWidget {
 
   static void cleanError() {
     LogManager.instance.cleanError();
+  }
+
+  static void cleanWarning() {
+    LogManager.instance.cleanWarning();
+  }
+
+  static void cleanAnalytics() {
+    LogManager.instance.cleanAnalytics();
+  }
+
+  static void cleanRoute() {
+    LogManager.instance.cleanRoute();
+  }
+
+  static void cleanNotification() {
+    LogManager.instance.cleanNotification();
   }
 
   @override
@@ -67,6 +89,7 @@ class _MainLogPageState extends State<MainLogPage> {
       builder: (context) => AdaptiveLayoutWidget(
         mobileLayoutWidget: MainLogMobilePage(
           onLoggerClose: widget.onLoggerClose,
+          debugScreen: widget.debugScreen,
         ),
         webLayoutWidget: MainLogWebPage(
           onLoggerClose: widget.onLoggerClose,

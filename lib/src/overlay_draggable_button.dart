@@ -17,7 +17,7 @@ class DraggableButtonWidget extends StatefulWidget {
     required this.topPos,
     required this.onLoggerOpen,
     this.title = 'log',
-    this.btnSize = 48,
+    this.btnSize = 36,
     super.key,
   });
 
@@ -32,7 +32,7 @@ class DraggableButtonWidget extends StatefulWidget {
 }
 
 class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
-  static const spaceForBuildNumberText = 36.0;
+  static const spaceForBuildNumberText = 24.0;
   late double left = widget.leftPos;
   late double top = widget.topPos;
   double screenWidth = 0;
@@ -50,10 +50,10 @@ class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
     /// Calculating offset limits
 
     left = max(left, 1);
-    left = min(screenWidth - widget.btnSize, left);
+    left = min(screenWidth - widget.btnSize - 10, left);
 
     top = max(top, 1);
-    top = min(top, screenHeight - widget.btnSize);
+    top = min(top, screenHeight - widget.btnSize - 10);
 
     return Container(
       alignment: Alignment.topLeft,
@@ -94,6 +94,7 @@ class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
                                       ? Icons.visibility_off
                                       : Icons.bug_report,
                                   color: Colors.white,
+                                  size: 20,
                                 );
                               },
                             ),
