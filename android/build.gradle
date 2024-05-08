@@ -1,4 +1,4 @@
-group 'android.src.main.kotlin.com.crefter.app_logger.app_logger'
+group 'com.crefter.app_logger.app_logger'
 version '1.0-SNAPSHOT'
 
 def localProperties = new Properties()
