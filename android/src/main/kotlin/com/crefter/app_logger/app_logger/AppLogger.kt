@@ -1,4 +1,4 @@
-package android.src.main.kotlin.com.crefter.app_logger.app_logger
+package com.crefter.app_logger.app_logger
 
 import io.flutter.plugin.common.EventChannel
 
