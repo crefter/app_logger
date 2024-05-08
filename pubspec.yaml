@@ -94,11 +94,11 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.cleveroad.app_logger.app_logger
-        pluginClass: CrLoggerPlugin
+        package: com.crefter.app_logger.app_logger
+        pluginClass: AppLoggerPlugin
       ios:
-        pluginClass: CrLoggerPlugin
+        pluginClass: AppLoggerPlugin
       web:
-        pluginClass: CrLoggerWeb
+        pluginClass: AppLoggerWeb
         fileName: app_logger_web.dart
 
