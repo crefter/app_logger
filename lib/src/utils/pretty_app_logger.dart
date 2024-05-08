@@ -1,25 +1,25 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/data/bean/error_bean.dart';
-import 'package:cr_logger/src/data/bean/request_bean.dart';
-import 'package:cr_logger/src/data/bean/response_bean.dart';
-import 'package:cr_logger/src/js/console_output_worker.dart';
-import 'package:cr_logger/src/js/error_worker_scripts.dart';
-import 'package:cr_logger/src/js/http_pretty_output_scripts.dart';
-import 'package:cr_logger/src/js/request_worker_scripts.dart';
-import 'package:cr_logger/src/js/response_worker_scripts.dart';
-import 'package:cr_logger/src/utils/html_stub.dart'
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/data/bean/error_bean.dart';
+import 'package:app_logger/src/data/bean/request_bean.dart';
+import 'package:app_logger/src/data/bean/response_bean.dart';
+import 'package:app_logger/src/js/console_output_worker.dart';
+import 'package:app_logger/src/js/error_worker_scripts.dart';
+import 'package:app_logger/src/js/http_pretty_output_scripts.dart';
+import 'package:app_logger/src/js/request_worker_scripts.dart';
+import 'package:app_logger/src/js/response_worker_scripts.dart';
+import 'package:app_logger/src/utils/html_stub.dart'
     if (dart.library.js) 'dart:html' as html;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:worker_manager/worker_manager.dart';
 
 // ignore_for_file: member-ordering-extended
-final class PrettyCRLogger {
-  PrettyCRLogger() {
+final class PrettyAppLogger {
+  PrettyAppLogger() {
     if (kIsWeb) {
       _createRequestWorker();
       _createResponseWorker();
@@ -42,7 +42,7 @@ final class PrettyCRLogger {
   static void Function(Object object) logPrint = print;
 
   Future<void> onRequest(RequestBean requestBean) async {
-    await CRLoggerHelper.instance.lock.synchronized(() async {
+    await AppLoggerHelper.instance.lock.synchronized(() async {
       if (kIsWeb) {
         if (kReleaseMode || kProfileMode) {
           final src = html.ScriptElement()..text = printRequestLogScript;
@@ -68,7 +68,7 @@ final class PrettyCRLogger {
   }
 
   Future<void> onError(ErrorBean errorBean) async {
-    await CRLoggerHelper.instance.lock.synchronized(() async {
+    await AppLoggerHelper.instance.lock.synchronized(() async {
       if (kIsWeb) {
         if (kReleaseMode || kProfileMode) {
           final src = html.ScriptElement()..text = printErrorLogScript;
@@ -90,7 +90,7 @@ final class PrettyCRLogger {
   }
 
   Future<void> onResponse(ResponseBean responseBean) async {
-    await CRLoggerHelper.instance.lock.synchronized(() async {
+    await AppLoggerHelper.instance.lock.synchronized(() async {
       if (kIsWeb) {
         if (kReleaseMode || kProfileMode) {
           final src = html.ScriptElement()..text = printResponseLogScript;
@@ -232,7 +232,7 @@ void _printRequest(RequestBean requestBean) {
           ..addEntries(data.files);
         _printMapAsTable(formDataMap, header: 'Form data | ${data.boundary}');
       } else {
-        PrettyCRLogger.logPrint('╔ Body ');
+        PrettyAppLogger.logPrint('╔ Body ');
         _printBlock(data.toString());
       }
     }
@@ -246,18 +246,18 @@ void _printResponse(ResponseBean responseBean) {
 
   final responseData = responseBean.data;
   if (responseData != null) {
-    PrettyCRLogger.logPrint('╔ Body');
-    PrettyCRLogger.logPrint('║');
+    PrettyAppLogger.logPrint('╔ Body');
+    PrettyAppLogger.logPrint('║');
     if (responseData is Map) {
       _printPrettyMap(responseData);
     } else if (responseData is List) {
-      PrettyCRLogger.logPrint('║${_indent()}[');
+      PrettyAppLogger.logPrint('║${_indent()}[');
       _printList(responseData);
-      PrettyCRLogger.logPrint('║${_indent()}[');
+      PrettyAppLogger.logPrint('║${_indent()}[');
     } else {
       _printBlock(responseData.toString());
     }
-    PrettyCRLogger.logPrint('║');
+    PrettyAppLogger.logPrint('║');
   }
 
   _printLine('╚');
@@ -274,22 +274,22 @@ void _printError(ErrorBean errorBean) {
     if (errorBean.errorMessage != null && errorBean.responseBean != null) {
       final responseBean = errorBean.responseBean!;
       _printMapAsTable(responseBean.headers, header: 'Headers');
-      PrettyCRLogger.logPrint('╔ Body');
-      PrettyCRLogger.logPrint('║');
+      PrettyAppLogger.logPrint('╔ Body');
+      PrettyAppLogger.logPrint('║');
       if (responseBean.data != null) {
         if (responseBean.data is Map) {
           _printPrettyMap(responseBean.data as Map);
         } else if (responseBean.data is List) {
-          PrettyCRLogger.logPrint('║${_indent()}[');
+          PrettyAppLogger.logPrint('║${_indent()}[');
           _printList(responseBean.data as List);
-          PrettyCRLogger.logPrint('║${_indent()}[');
+          PrettyAppLogger.logPrint('║${_indent()}[');
         } else {
           _printBlock(responseBean.data.toString());
         }
       }
     }
     _printLine('╚');
-    PrettyCRLogger.logPrint('');
+    PrettyAppLogger.logPrint('');
   } else {
     _printBoxed(
       header: 'Error ║ ',
@@ -300,17 +300,17 @@ void _printError(ErrorBean errorBean) {
 
 void _printPrettyMap(
   Map data, {
-  int tabs = PrettyCRLogger.initialTab,
+  int tabs = PrettyAppLogger.initialTab,
   bool isListItem = false,
   bool isLast = false,
 }) {
   var _tabs = tabs;
-  final isRoot = _tabs == PrettyCRLogger.initialTab;
+  final isRoot = _tabs == PrettyAppLogger.initialTab;
   final initialIndent = _indent(_tabs);
   _tabs++;
 
   if (isRoot || isListItem) {
-    PrettyCRLogger.logPrint('║$initialIndent{');
+    PrettyAppLogger.logPrint('║$initialIndent{');
   }
 
   data.keys.toList().asMap().forEach(
@@ -322,27 +322,27 @@ void _printPrettyMap(
       }
       if (value is Map) {
         if (_canFlattenMap(value)) {
-          PrettyCRLogger.logPrint(
+          PrettyAppLogger.logPrint(
             '║${_indent(_tabs)} $key: $value${!isLast ? ',' : ''}',
           );
         } else {
-          PrettyCRLogger.logPrint('║${_indent(_tabs)} $key: {');
+          PrettyAppLogger.logPrint('║${_indent(_tabs)} $key: {');
           _printPrettyMap(value, tabs: _tabs);
         }
       } else if (value is List) {
         if (_canFlattenList(value)) {
-          PrettyCRLogger.logPrint(
+          PrettyAppLogger.logPrint(
             '║${_indent(_tabs)} $key: ${value.toString()}',
           );
         } else {
-          PrettyCRLogger.logPrint('║${_indent(_tabs)} $key: [');
+          PrettyAppLogger.logPrint('║${_indent(_tabs)} $key: [');
           _printList(value, tabs: _tabs);
-          PrettyCRLogger.logPrint('║${_indent(_tabs)} ]${isLast ? '' : ','}');
+          PrettyAppLogger.logPrint('║${_indent(_tabs)} ]${isLast ? '' : ','}');
         }
       } else {
         final msg = value.toString().replaceAll('\n', '');
         final indent = _indent(_tabs);
-        final linWidth = PrettyCRLogger.maxWidth - indent.length;
+        final linWidth = PrettyAppLogger.maxWidth - indent.length;
         if (msg.length + indent.length > linWidth) {
           final lines = (msg.length / linWidth).ceil();
           for (var i = 0; i < lines; ++i) {
@@ -350,12 +350,12 @@ void _printPrettyMap(
             if (i == 0) {
               keyOrSpace = '$key: ';
             }
-            PrettyCRLogger.logPrint(
+            PrettyAppLogger.logPrint(
               '║${_indent(_tabs)} $keyOrSpace${msg.substring(i * linWidth, math.min<int>(i * linWidth + linWidth, msg.length))}',
             );
           }
         } else {
-          PrettyCRLogger.logPrint(
+          PrettyAppLogger.logPrint(
             '║${_indent(_tabs)} $key: $msg${!isLast ? ',' : ''}',
           );
         }
@@ -363,30 +363,31 @@ void _printPrettyMap(
     },
   );
 
-  PrettyCRLogger.logPrint(
+  PrettyAppLogger.logPrint(
     '║$initialIndent}${isListItem && !isLast ? ',' : ''}',
   );
 }
 
-String _indent([int tabCount = PrettyCRLogger.initialTab]) =>
-    PrettyCRLogger.tabStep * tabCount;
+String _indent([int tabCount = PrettyAppLogger.initialTab]) =>
+    PrettyAppLogger.tabStep * tabCount;
 
 bool _canFlattenList(List list) {
-  return list.length < 10 && list.toString().length < PrettyCRLogger.maxWidth;
+  return list.length < 10 && list.toString().length < PrettyAppLogger.maxWidth;
 }
 
 bool _canFlattenMap(Map map) {
   return map.values.where((val) => val is Map || val is List).isEmpty &&
-      map.toString().length < PrettyCRLogger.maxWidth;
+      map.toString().length < PrettyAppLogger.maxWidth;
 }
 
-void _printList(List list, {int tabs = PrettyCRLogger.initialTab}) {
+void _printList(List list, {int tabs = PrettyAppLogger.initialTab}) {
   list.asMap().forEach(
     (i, e) {
       final isLast = i == list.length - 1;
       if (e is Map) {
         if (_canFlattenMap(e)) {
-          PrettyCRLogger.logPrint('║${_indent(tabs)}  $e${!isLast ? ',' : ''}');
+          PrettyAppLogger.logPrint(
+              '║${_indent(tabs)}  $e${!isLast ? ',' : ''}');
         } else {
           _printPrettyMap(
             e,
@@ -396,21 +397,22 @@ void _printList(List list, {int tabs = PrettyCRLogger.initialTab}) {
           );
         }
       } else {
-        PrettyCRLogger.logPrint('║${_indent(tabs + 2)} $e${isLast ? '' : ','}');
+        PrettyAppLogger.logPrint(
+            '║${_indent(tabs + 2)} $e${isLast ? '' : ','}');
       }
     },
   );
 }
 
 void _printBlock(String msg) {
-  final lines = (msg.length / PrettyCRLogger.maxWidth).ceil();
+  final lines = (msg.length / PrettyAppLogger.maxWidth).ceil();
   for (var i = 0; i < lines; ++i) {
-    PrettyCRLogger.logPrint(
+    PrettyAppLogger.logPrint(
       (i >= 0 ? '║ ' : '') +
           msg.substring(
-            i * PrettyCRLogger.maxWidth,
+            i * PrettyAppLogger.maxWidth,
             math.min<int>(
-              i * PrettyCRLogger.maxWidth + PrettyCRLogger.maxWidth,
+              i * PrettyAppLogger.maxWidth + PrettyAppLogger.maxWidth,
               msg.length,
             ),
           ),
@@ -422,12 +424,12 @@ void _printMapAsTable(Map? map, {String? header}) {
   if (map == null || map.isEmpty) {
     return;
   }
-  PrettyCRLogger.logPrint('╔ $header ');
+  PrettyAppLogger.logPrint('╔ $header ');
   map.forEach((key, value) => _printKV(key.toString(), value));
 }
 
 void _printLine([String pre = '', String suf = '╝']) =>
-    PrettyCRLogger.logPrint('$pre${'═' * PrettyCRLogger.maxWidth}$suf');
+    PrettyAppLogger.logPrint('$pre${'═' * PrettyAppLogger.maxWidth}$suf');
 
 void _printRequestHeader(RequestBean requestBean) {
   final uri = requestBean.url;
@@ -446,19 +448,19 @@ void _printResponseHeader(ResponseBean responseBean) {
 }
 
 void _printBoxed({String? header, String? text}) {
-  PrettyCRLogger.logPrint('');
-  PrettyCRLogger.logPrint('╔╣ $header');
-  PrettyCRLogger.logPrint('║  $text');
+  PrettyAppLogger.logPrint('');
+  PrettyAppLogger.logPrint('╔╣ $header');
+  PrettyAppLogger.logPrint('║  $text');
 }
 
 void _printKV(String? key, Object? v) {
   final pre = '╟ $key: ';
   final msg = v.toString();
 
-  if (pre.length + msg.length > PrettyCRLogger.maxWidth) {
-    PrettyCRLogger.logPrint(pre);
+  if (pre.length + msg.length > PrettyAppLogger.maxWidth) {
+    PrettyAppLogger.logPrint(pre);
     _printBlock(msg);
   } else {
-    PrettyCRLogger.logPrint('$pre$msg');
+    PrettyAppLogger.logPrint('$pre$msg');
   }
 }

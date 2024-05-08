@@ -1,11 +1,11 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
 import 'package:proxima_logger/proxima_logger.dart' hide LogType;
 
-final class CRLoggerWrapper extends ProximaLogger with LoggerToWidgetMixin {
-  CRLoggerWrapper._();
+final class AppLoggerWrapper extends ProximaLogger with LoggerToWidgetMixin {
+  AppLoggerWrapper._();
 
-  static final CRLoggerWrapper instance = CRLoggerWrapper._();
+  static final AppLoggerWrapper instance = AppLoggerWrapper._();
 
   @override
   void log(

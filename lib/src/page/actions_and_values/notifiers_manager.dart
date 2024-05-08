@@ -1,4 +1,4 @@
-import 'package:cr_logger/src/page/actions_and_values/models/notifier_data.dart';
+import 'package:app_logger/src/page/actions_and_values/models/notifier_data.dart';
 import 'package:flutter/cupertino.dart';
 
 /// Manager through which value notifiers are added to the page

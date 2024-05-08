@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cr_logger/cr_logger.dart';
+import 'package:app_logger/app_logger.dart';
 import 'package:dio/dio.dart';
 
 typedef ParserError = Map<String, dynamic> Function(Object? data);

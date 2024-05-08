@@ -1,10 +1,10 @@
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/data/bean/http_bean.dart';
-import 'package:cr_logger/src/dio_log.dart';
-import 'package:cr_logger/src/models/http_log_type.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/widget/cr_app_bar.dart';
-import 'package:cr_logger/src/widget/options_buttons.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/data/bean/http_bean.dart';
+import 'package:app_logger/src/dio_log.dart';
+import 'package:app_logger/src/models/http_log_type.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/widget/app_app_bar.dart';
+import 'package:app_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
 
 ///Network Request Details
@@ -50,10 +50,10 @@ class _HttpLogDetailsPageState extends State<HttpLogDetailsPage>
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: Scaffold(
         backgroundColor: CRLoggerColors.backgroundGrey,
-        appBar: widget.isWeb ? null : const CRAppBar(title: 'Http log'),
+        appBar: widget.isWeb ? null : const AppAppBar(title: 'Http log'),
         body: Column(
           children: [
             Container(

@@ -1,18 +1,18 @@
 import 'dart:collection';
 
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/providers/sqflite_provider.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/providers/sqflite_provider.dart';
 
 final class HttpLogManager {
   HttpLogManager._();
 
   static HttpLogManager instance = HttpLogManager._();
   final _provider = SqfliteProvider.instance;
-  final _useDB = CRLoggerHelper.instance.useDB;
+  final _useDB = AppLoggerHelper.instance.useDB;
 
   void Function(HttpBean)? addResponse;
   void Function(HttpBean)? addRequest;
@@ -21,7 +21,7 @@ final class HttpLogManager {
   LinkedHashMap<String, HttpBean> logMap = LinkedHashMap<String, HttpBean>();
 
   List<HttpBean> logsFromDB = [];
-  int maxLogsCount = CRLoggerHelper.instance.maxLogsCount;
+  int maxLogsCount = AppLoggerHelper.instance.maxLogsCount;
 
   List<String> keys = <String>[];
 
@@ -209,16 +209,17 @@ final class HttpLogManager {
     LinkedHashMap<String, HttpBean> logs,
   ) {
     return LinkedHashMap.fromEntries(
-      logs.entries.toList()..sort((a, b) {
-        final aDate = a.value.request?.requestTime;
-        final bDate = b.value.request?.requestTime;
+      logs.entries.toList()
+        ..sort((a, b) {
+          final aDate = a.value.request?.requestTime;
+          final bDate = b.value.request?.requestTime;
 
-        if (aDate != null && bDate != null) {
-          return aDate.compareTo(bDate);
-        }
+          if (aDate != null && bDate != null) {
+            return aDate.compareTo(bDate);
+          }
 
-        return 0;
-      }),
+          return 0;
+        }),
     );
   }
 

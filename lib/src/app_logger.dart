@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/extensions/extensions.dart';
-import 'package:cr_logger/src/interceptor/cr_http_adapter.dart';
-import 'package:cr_logger/src/interceptor/cr_http_client_adapter.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/managers/transfer_manager.dart';
-import 'package:cr_logger/src/page/actions_and_values/actions_manager.dart';
-import 'package:cr_logger/src/page/actions_and_values/notifiers_manager.dart';
-import 'package:cr_logger/src/page/log_main/log_main.dart';
-import 'package:cr_logger/src/providers/sqflite_provider.dart';
-import 'package:cr_logger/src/res/theme.dart';
-import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
-import 'package:cr_logger/src/utils/show_log_snack_bar.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/extensions/extensions.dart';
+import 'package:app_logger/src/interceptor/app_http_adapter.dart';
+import 'package:app_logger/src/interceptor/app_http_client_adapter.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/managers/transfer_manager.dart';
+import 'package:app_logger/src/page/actions_and_values/actions_manager.dart';
+import 'package:app_logger/src/page/actions_and_values/notifiers_manager.dart';
+import 'package:app_logger/src/page/log_main/log_main.dart';
+import 'package:app_logger/src/providers/sqflite_provider.dart';
+import 'package:app_logger/src/res/theme.dart';
+import 'package:app_logger/src/utils/parsers/isolate_parser.dart';
+import 'package:app_logger/src/utils/show_log_snack_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,18 +26,18 @@ typedef BuildTypeCallback = String Function();
 typedef EndpointCallback = String Function();
 typedef LogoutFromAppCallback = Function();
 
-final class CRLoggerInitializer {
-  CRLoggerInitializer._();
+final class AppLoggerInitializer {
+  AppLoggerInitializer._();
 
   static const _channel = EventChannel(
-    'com.cleveroad.cr_logger/logger',
+    'com.crefter.app_logger/logger',
   );
 
-  static CRLoggerInitializer instance = CRLoggerInitializer._();
+  static AppLoggerInitializer instance = AppLoggerInitializer._();
   final _loggerNavigationKey = GlobalKey<NavigatorState>();
   final _rootBackButtonDispatcher = RootBackButtonDispatcher();
-  late final CRHttpClientAdapter _httpClientAdapter;
-  late final CRHttpAdapter _httpAdapter;
+  late final AppHttpClientAdapter _httpClientAdapter;
+  late final AppHttpAdapter _httpAdapter;
   Widget? _debugScreen;
 
   /// Callback for sharing logs file on the app's side.
@@ -140,23 +140,23 @@ final class CRLoggerInitializer {
       return;
     }
 
-    await CRLoggerHelper.instance.init();
+    await AppLoggerHelper.instance.init();
 
     if (!kIsWeb) {
       _channel.receiveBroadcastStream().listen(_receiveNativeLogs);
     }
-    _httpClientAdapter = CRHttpClientAdapter();
-    _httpAdapter = CRHttpAdapter();
+    _httpClientAdapter = AppHttpClientAdapter();
+    _httpAdapter = AppHttpAdapter();
 
     if (theme != null) {
-      CRLoggerHelper.instance.theme =
+      AppLoggerHelper.instance.theme =
           theme.copyWithDefaultCardTheme(loggerTheme.cardTheme);
     }
     this.logFileName = logFileName ?? this.logFileName;
     this.hiddenFields = hiddenFields ?? [];
     this.hiddenHeaders = hiddenHeaders ?? [];
 
-    log = logger ?? CRLoggerWrapper.instance;
+    log = logger ?? AppLoggerWrapper.instance;
 
     _rootBackButtonDispatcher.addCallback(_dispatchBackButton);
     if (!kIsWeb && _useDB && useCrLoggerInReleaseBuild) {
@@ -169,7 +169,7 @@ final class CRLoggerInitializer {
   ///
   /// Proxy settings are saved in the logger with SharedPreferences
   String? getProxySettings() =>
-      CRLoggerHelper.instance.getProxyFromSharedPref();
+      AppLoggerHelper.instance.getProxyFromSharedPref();
 
   /// Adds a value notifier to the Actions and values page
   void addValueNotifier({
@@ -352,7 +352,7 @@ final class CRLoggerInitializer {
       /// Saving the logger opening method with the correct context
       _onOpenLogger = () {
         _onLoggerOpen(context);
-        CRLoggerHelper.instance.showLogger();
+        AppLoggerHelper.instance.showLogger();
       };
     }
   }
@@ -389,7 +389,7 @@ final class CRLoggerInitializer {
   void _onLoggerClose() {
     _loggerEntry?.remove();
     _loggerEntry = null;
-    CRLoggerHelper.instance.hideLogger();
+    AppLoggerHelper.instance.hideLogger();
   }
 
   void _onLoggerOpen(BuildContext context) {
@@ -415,7 +415,7 @@ final class CRLoggerInitializer {
   }
 
   Future<bool> _dispatchBackButton() async {
-    if (CRLoggerHelper.instance.isLoggerShowing) {
+    if (AppLoggerHelper.instance.isLoggerShowing) {
       if (_loggerNavigationKey.currentState != null) {
         final isPopped = await _loggerNavigationKey.currentState?.maybePop();
         if (isPopped == false) {

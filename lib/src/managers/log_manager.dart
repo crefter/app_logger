@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/providers/sqflite_provider.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/providers/sqflite_provider.dart';
 import 'package:flutter/cupertino.dart';
 
 final class LogManager {
@@ -16,7 +16,7 @@ final class LogManager {
 
   static final instance = LogManager._();
 
-  int maxLogsCount = CRLoggerHelper.instance.maxLogsCount;
+  int maxLogsCount = AppLoggerHelper.instance.maxLogsCount;
 
   final localLogs = StreamController<LogBean>.broadcast();
 
@@ -38,7 +38,7 @@ final class LogManager {
   List<LogBean> logWarningDB = [];
 
   final _provider = SqfliteProvider.instance;
-  final _useDB = CRLoggerHelper.instance.useDB;
+  final _useDB = AppLoggerHelper.instance.useDB;
   final _httpMng = HttpLogManager.instance;
 
   ValueNotifier<LogBean?> logToastNotifier = ValueNotifier<LogBean?>(null);
@@ -162,7 +162,8 @@ final class LogManager {
     allLogs.add(
       LogBean(
         title: 'REQUEST ${bean.request?.url}',
-        message: '${bean.request?.body ?? ''} \\n ${bean.request?.params ?? ''}',
+        message:
+            '${bean.request?.body ?? ''} \\n ${bean.request?.params ?? ''}',
         time: bean.request?.requestTime ?? DateTime.now(),
         stackTrace: null,
       ),

@@ -1,8 +1,8 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/error_value_widget.dart';
-import 'package:cr_logger/src/widget/json_widget/json_widget.dart';
-import 'package:cr_logger/src/widget/rounded_card.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/error_value_widget.dart';
+import 'package:app_logger/src/widget/json_widget/json_widget.dart';
+import 'package:app_logger/src/widget/rounded_card.dart';
 import 'package:flutter/material.dart';
 
 class HttpErrorWidget extends StatefulWidget {

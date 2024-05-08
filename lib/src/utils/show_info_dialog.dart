@@ -1,4 +1,4 @@
-import 'package:cr_logger/src/cr_logger_helper.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showInfoDialog({
@@ -9,7 +9,7 @@ Future<void> showInfoDialog({
     showDialog(
       context: context,
       builder: (context) => Theme(
-        data: CRLoggerHelper.instance.theme,
+        data: AppLoggerHelper.instance.theme,
         child: AlertDialog(
           title: title,
           content: content,

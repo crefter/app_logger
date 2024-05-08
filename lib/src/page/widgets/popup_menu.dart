@@ -1,19 +1,19 @@
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/managers/transfer_manager.dart';
+import 'package:app_logger/src/page/actions_and_values/actions_and_values_page.dart';
+import 'package:app_logger/src/page/app_info_page.dart';
+import 'package:app_logger/src/page/http_logs/http_logs_page.dart';
+import 'package:app_logger/src/page/logs/log_page.dart';
+import 'package:app_logger/src/page/search/search_page.dart';
+import 'package:app_logger/src/page/widgets/clear_logs_content_widget.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/utils/show_info_dialog.dart';
+import 'package:app_logger/src/widget/proxy_input_dialog.dart';
 import 'package:app_settings/app_settings.dart';
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/managers/transfer_manager.dart';
-import 'package:cr_logger/src/page/actions_and_values/actions_and_values_page.dart';
-import 'package:cr_logger/src/page/app_info_page.dart';
-import 'package:cr_logger/src/page/http_logs/http_logs_page.dart';
-import 'package:cr_logger/src/page/logs/log_page.dart';
-import 'package:cr_logger/src/page/search/search_page.dart';
-import 'package:cr_logger/src/page/widgets/clear_logs_content_widget.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/utils/show_info_dialog.dart';
-import 'package:cr_logger/src/widget/proxy_input_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,7 @@ class PopupMenu extends StatefulWidget {
 }
 
 class PopupMenuState extends State<PopupMenu> {
-  final _loggerHelper = CRLoggerHelper.instance;
+  final _loggerHelper = AppLoggerHelper.instance;
   final _httpLogKey = GlobalKey<HttpLogsPageState>();
   final _debugLogKey = GlobalKey<LogPageState>();
   final _infoLogKey = GlobalKey<LogPageState>();
@@ -133,12 +133,12 @@ class PopupMenuState extends State<PopupMenu> {
   }
 
   Future<void> _cleanAllLogs() async {
-    CRLoggerHelper.instance.hideLogger();
+    AppLoggerHelper.instance.hideLogger();
     await showDialog<bool>(
       context: context,
       builder: (context) {
         return Theme(
-          data: CRLoggerHelper.instance.theme,
+          data: AppLoggerHelper.instance.theme,
           child: AlertDialog(
             title: const Text('Clear logs'),
             content: _loggerHelper.useDB
@@ -175,8 +175,8 @@ class PopupMenuState extends State<PopupMenu> {
 //Sharing logs is not enabled.
 // Please ask Flutter developer to enable it.
   Future<void> _shareLogs() async {
-    if (CRLoggerInitializer.instance.onShareLogsFile == null) {
-      CRLoggerHelper.instance.hideLogger();
+    if (AppLoggerInitializer.instance.onShareLogsFile == null) {
+      AppLoggerHelper.instance.hideLogger();
 
       return showInfoDialog(
         context: context,
@@ -192,11 +192,11 @@ class PopupMenuState extends State<PopupMenu> {
   }
 
   Future<void> _showIpInput() async {
-    CRLoggerHelper.instance.hideLogger();
+    AppLoggerHelper.instance.hideLogger();
     await showDialog(
       context: context,
       builder: (_) => Theme(
-        data: CRLoggerHelper.instance.theme,
+        data: AppLoggerHelper.instance.theme,
         child: const ProxyInputDialog(),
       ),
     );
@@ -234,8 +234,8 @@ class PopupMenuState extends State<PopupMenu> {
   }
 
   Future<void> _toggleInspector() async {
-    if (context.findAncestorWidgetOfExactType<CrInspector>() == null) {
-      CRLoggerHelper.instance.hideLogger();
+    if (context.findAncestorWidgetOfExactType<AppInspector>() == null) {
+      AppLoggerHelper.instance.hideLogger();
 
       return showInfoDialog(
         context: context,
@@ -249,8 +249,8 @@ class PopupMenuState extends State<PopupMenu> {
     }
 
     setState(() {
-      CRLoggerHelper.instance.inspectorNotifier.value =
-          !CRLoggerHelper.instance.inspectorNotifier.value;
+      AppLoggerHelper.instance.inspectorNotifier.value =
+          !AppLoggerHelper.instance.inspectorNotifier.value;
     });
   }
 
@@ -281,7 +281,7 @@ class _PopupMenuItem extends PopupMenuItem<VoidCallback> {
             contentPadding: EdgeInsets.zero,
             leading: Icon(
               icon,
-              color: CRLoggerHelper.instance.theme.iconTheme.color,
+              color: AppLoggerHelper.instance.theme.iconTheme.color,
             ),
             title: title,
             key: key,

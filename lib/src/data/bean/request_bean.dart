@@ -1,7 +1,7 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/extensions/extensions.dart';
-import 'package:cr_logger/src/utils/hide_values_in_map.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/extensions/extensions.dart';
+import 'package:app_logger/src/utils/hide_values_in_map.dart';
 import 'package:dio/dio.dart';
 
 final class RequestBean {
@@ -58,7 +58,7 @@ final class RequestBean {
 
   Map<String, dynamic> toJson() {
     final changedHeaders = headers?.map((key, value) {
-      return CRLoggerInitializer.instance.hiddenHeaders.contains(key)
+      return AppLoggerInitializer.instance.hiddenHeaders.contains(key)
           ? MapEntry(key, kHidden)
           : MapEntry(key, value);
     });
@@ -69,7 +69,7 @@ final class RequestBean {
     }
     if (params is Map) {
       changedParams = (params as Map).map(
-        (key, value) => CRLoggerInitializer.instance.hiddenFields.contains(key)
+        (key, value) => AppLoggerInitializer.instance.hiddenFields.contains(key)
             ? MapEntry(key, kHidden)
             : MapEntry(key, value),
       );

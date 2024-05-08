@@ -1,4 +1,4 @@
-name: cr_logger
+name: app_logger
 publish_to: 'none'
 
 version: 0.0.1
@@ -94,11 +94,11 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.cleveroad.cr_logger.cr_logger
+        package: com.cleveroad.app_logger.app_logger
         pluginClass: CrLoggerPlugin
       ios:
         pluginClass: CrLoggerPlugin
       web:
         pluginClass: CrLoggerWeb
-        fileName: cr_logger_web.dart
+        fileName: app_logger_web.dart
 

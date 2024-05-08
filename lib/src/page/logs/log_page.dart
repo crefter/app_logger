@@ -1,14 +1,14 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/base/base_page_with_progress.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/extensions/do_post_frame.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/page/logs/log_local_detail_page.dart';
-import 'package:cr_logger/src/page/widgets/local_log_item.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/utils/show_remove_log_bottom_sheet.dart';
-import 'package:cr_logger/src/utils/show_remove_log_snack_bar.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/base/base_page_with_progress.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/extensions/do_post_frame.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/page/logs/log_local_detail_page.dart';
+import 'package:app_logger/src/page/widgets/local_log_item.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/utils/show_remove_log_bottom_sheet.dart';
+import 'package:app_logger/src/utils/show_remove_log_snack_bar.dart';
 import 'package:flutter/material.dart';
 
 class LogPage extends StatefulWidget {
@@ -282,6 +282,7 @@ class LogPageState extends BasePageWithProgress<LogPage> {
   void _removeLog(LogBean logBean) {
     LogManager.instance.removeLog(logBean);
     _currentLogs.removeWhere((element) => element.id == logBean.id);
+
     /// TEST
     _update();
   }

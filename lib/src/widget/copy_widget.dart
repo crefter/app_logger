@@ -1,5 +1,5 @@
-import 'package:cr_logger/generated/assets.dart';
-import 'package:cr_logger/src/extensions/extensions.dart';
+import 'package:app_logger/generated/assets.dart';
+import 'package:app_logger/src/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class CopyWidget extends StatelessWidget {

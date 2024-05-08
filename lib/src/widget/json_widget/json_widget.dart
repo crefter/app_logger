@@ -1,5 +1,5 @@
+import 'package:app_logger/app_logger.dart';
 import 'package:cr_json_widget/cr_json_recycler.dart';
-import 'package:cr_logger/cr_logger.dart';
 import 'package:flutter/material.dart';
 
 class JsonWidget extends StatefulWidget {
@@ -111,7 +111,7 @@ class JsonWidgetState extends State<JsonWidget> {
   /// Create Nodes3 = {map entry} "Test3" -> "Hidden"4 = {map entry} "Test4" -3 = {map entry} "Test3" -> "Hidden"> [_InternalLinkedHashMap]
   Map<String, dynamic>? _toTreeJson(Map<String, dynamic> jsonObj) {
     for (final obj in jsonObj.keys) {
-      final isHidden = CRLoggerInitializer.instance.hiddenFields.contains(obj);
+      final isHidden = AppLoggerInitializer.instance.hiddenFields.contains(obj);
       if (isHidden) {
         jsonObj[obj] = 'Hidden';
       }

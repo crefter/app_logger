@@ -1,11 +1,11 @@
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/page/actions_and_values/actions_manager.dart';
-import 'package:cr_logger/src/page/actions_and_values/notifiers_manager.dart';
-import 'package:cr_logger/src/page/actions_and_values/widgets/action_item.dart';
-import 'package:cr_logger/src/page/actions_and_values/widgets/value_notifier_item.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/cr_app_bar.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/page/actions_and_values/actions_manager.dart';
+import 'package:app_logger/src/page/actions_and_values/notifiers_manager.dart';
+import 'package:app_logger/src/page/actions_and_values/widgets/action_item.dart';
+import 'package:app_logger/src/page/actions_and_values/widgets/value_notifier_item.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/app_app_bar.dart';
 import 'package:flutter/material.dart';
 
 /// Contains action buttons and value notifiers sections
@@ -17,10 +17,10 @@ class ActionsAndValuesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: Scaffold(
         backgroundColor: CRLoggerColors.backgroundGrey,
-        appBar: const CRAppBar(title: 'Actions and values'),
+        appBar: const AppAppBar(title: 'Actions and values'),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(

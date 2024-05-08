@@ -1,5 +1,5 @@
-import 'package:cr_logger/src/utils/enum_ext.dart';
-import 'package:cr_logger/src/utils/map_ext.dart';
+import 'package:app_logger/src/utils/enum_ext.dart';
+import 'package:app_logger/src/utils/map_ext.dart';
 import 'package:proxima_logger/proxima_logger.dart';
 
 final class LogEntity {

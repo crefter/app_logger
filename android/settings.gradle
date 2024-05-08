@@ -1,4 +1,4 @@
-rootProject.name = 'cr_logger'
+rootProject.name = 'app_logger'
 
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")

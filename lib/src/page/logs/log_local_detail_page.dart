@@ -1,16 +1,16 @@
-import 'package:cr_logger/src/base/log_type.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/data/bean/log_bean.dart';
-import 'package:cr_logger/src/extensions/extensions.dart';
-import 'package:cr_logger/src/page/widgets/json_details_widget.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/utils/text_with_params_widget.dart';
-import 'package:cr_logger/src/widget/copy_widget.dart';
-import 'package:cr_logger/src/widget/cr_app_bar.dart';
-import 'package:cr_logger/src/widget/rounded_card.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/base/log_type.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/data/bean/log_bean.dart';
+import 'package:app_logger/src/extensions/extensions.dart';
+import 'package:app_logger/src/page/widgets/json_details_widget.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/utils/text_with_params_widget.dart';
+import 'package:app_logger/src/widget/app_app_bar.dart';
+import 'package:app_logger/src/widget/copy_widget.dart';
+import 'package:app_logger/src/widget/rounded_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,9 +58,9 @@ class _LogLocalDetailPageState extends State<LogLocalDetailPage> {
         : log?.time.formatTimeWithYear(context);
 
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: Scaffold(
-        appBar: widget.isWeb ? null : CRAppBar(title: '$logName log'),
+        appBar: widget.isWeb ? null : AppAppBar(title: '$logName log'),
         backgroundColor: CRLoggerColors.backgroundGrey,
         body: log == null
             ? const Text('No log bean')

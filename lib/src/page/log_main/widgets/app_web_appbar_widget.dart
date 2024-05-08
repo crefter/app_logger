@@ -1,9 +1,9 @@
-import 'package:cr_logger/src/page/widgets/popup_menu.dart';
-import 'package:cr_logger/src/res/styles.dart';
+import 'package:app_logger/src/page/widgets/popup_menu.dart';
+import 'package:app_logger/src/res/styles.dart';
 import 'package:flutter/material.dart';
 
-class CRWebAppBar extends StatelessWidget {
-  const CRWebAppBar({
+class AppWebAppBar extends StatelessWidget {
+  const AppWebAppBar({
     required this.popupKey,
     required this.onLoggerClose,
     super.key,

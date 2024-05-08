@@ -1,68 +1,64 @@
-import 'dart:io';
+import 'package:app_logger/app_logger.dart';
+import 'package:http/http.dart' as http;
 
-import 'package:cr_logger/cr_logger.dart';
-
-final class CRHttpClientAdapter {
+final class AppHttpAdapter {
   HttpLogManager logManager = HttpLogManager.instance;
 
-  /// Handles httpClientRequest and creates http alice call from it
-  void onRequest(HttpClientRequest request, Object? body) {
-    final headers = <String, dynamic>{};
+  /// Handles http response. It creates both request and response from http call
+  void onResponse(http.Response response, Object? body) {
+    if (response.request == null) {
+      return;
+    }
+    final request = response.request!;
+
+    final requestHeaders = <String, dynamic>{};
 
     request.headers.forEach((header, value) {
-      headers[header] = value;
+      requestHeaders[header] = value;
     });
 
     String? contentType = 'unknown';
-    if (headers.containsKey('Content-Type')) {
-      contentType = headers['Content-Type'] as String?;
+    if (requestHeaders.containsKey('Content-Type')) {
+      contentType = requestHeaders['Content-Type'] as String?;
     }
 
-    final reqOpt = RequestBean()
+    final requestBean = RequestBean()
       ..id = request.hashCode
-      ..url = request.uri.toString()
+      ..url = request.url.toString()
       ..method = request.method
       ..contentType = contentType
       ..requestTime = DateTime.now()
       ..body = body
-      ..headers = headers;
+      ..headers = requestHeaders;
+    logManager.onRequest(requestBean);
 
-    logManager.onRequest(reqOpt);
-  }
-
-  /// Handles httpClientRequest and adds response to http alice call
-  void onResponse(
-    HttpClientResponse response,
-    HttpClientRequest request,
-    Object? body,
-  ) {
-    final headers = <String, dynamic>{};
+    final responseHeaders = <String, dynamic>{};
 
     response.headers.forEach((header, value) {
-      headers[header] = value;
+      responseHeaders[header] = value;
     });
 
     final statusCode = response.statusCode;
     final isError = statusCode < 200 || statusCode >= 300;
 
-    final resOpt = ResponseBean()
+    final responseBean = ResponseBean()
       ..id = request.hashCode
       ..responseTime = DateTime.now()
-      ..url = request.uri.toString()
+      ..url = request.url.toString()
       ..method = request.method
       ..statusCode = response.statusCode
       ..statusMessage = response.reasonPhrase
 
       /// In error case, do not put data in ResponseBean.
       ..data = isError ? null : body
-      ..headers = headers;
-    logManager.onResponse(resOpt);
+      ..headers = responseHeaders;
+    logManager.onResponse(responseBean);
 
     /// On error
     if (isError) {
       final errorBean = ErrorBean()
         ..id = request.hashCode
-        ..url = request.uri.toString()
+        ..url = request.url.toString()
         ..time = DateTime.now()
         ..statusCode = response.statusCode
         ..statusMessage = response.reasonPhrase;

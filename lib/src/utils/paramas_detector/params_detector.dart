@@ -1,5 +1,5 @@
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/utils/paramas_detector/parameter_model.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/utils/paramas_detector/parameter_model.dart';
 
 final class ParameterDetector {
   static final _parameterRegex = RegExp(r'\{\{[^{}]+\}\}');

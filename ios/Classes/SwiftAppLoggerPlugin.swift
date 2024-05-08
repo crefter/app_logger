@@ -1,12 +1,12 @@
 import Flutter
 import UIKit
 
-public class SwiftCrLoggerPlugin: NSObject, FlutterPlugin {
+public class SwiftAppLoggerPlugin: NSObject, FlutterPlugin {
     
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "cr_logger", binaryMessenger: registrar.messenger())
+    let channel = FlutterMethodChannel(name: "app_logger", binaryMessenger: registrar.messenger())
     let instance = SwiftCrLoggerPlugin()
-    FlutterEventChannel(name: "com.cleveroad.cr_logger/logger", binaryMessenger: registrar.messenger())
+    FlutterEventChannel(name: "com.crefter.app_logger/logger", binaryMessenger: registrar.messenger())
                   .setStreamHandler(CrLogger())
       
 

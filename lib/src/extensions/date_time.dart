@@ -1,4 +1,4 @@
-import 'package:cr_logger/src/extensions/int_ext.dart';
+import 'package:app_logger/src/extensions/int_ext.dart';
 import 'package:flutter/material.dart';
 
 extension DateTimeFormatter on DateTime {

@@ -1,4 +1,4 @@
-import 'package:cr_logger/src/utils/map_ext.dart';
+import 'package:app_logger/src/utils/map_ext.dart';
 
 final class HttpEntity {
   HttpEntity({

@@ -1,10 +1,10 @@
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/cr_back_button.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/app_back_button.dart';
 import 'package:flutter/material.dart';
 
-class CRAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CRAppBar({
+class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const AppAppBar({
     this.title = '',
     this.titleWidget,
     this.showBackButton,
@@ -32,7 +32,7 @@ class CRAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) => AppBar(
         centerTitle: centerTitle,
         automaticallyImplyLeading: false,
-        leading: CRBackButton(
+        leading: AppBackButton(
           color: backButtonColor,
           showBackButton: showBackButton,
           onPressed: onBackPressed,

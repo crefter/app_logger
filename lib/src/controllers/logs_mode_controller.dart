@@ -1,6 +1,6 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
 import 'package:flutter/cupertino.dart';
 
 final class LogsModeController extends ChangeNotifier {

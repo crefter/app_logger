@@ -1,5 +1,5 @@
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/res/styles.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/res/styles.dart';
 import 'package:flutter/material.dart';
 
 class DeleteLogConfirmWidget extends StatelessWidget {

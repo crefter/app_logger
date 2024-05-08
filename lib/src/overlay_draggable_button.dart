@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/page/widgets/popup_menu.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/theme.dart';
-import 'package:cr_logger/src/widget/build_number.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/page/widgets/popup_menu.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/theme.dart';
+import 'package:app_logger/src/widget/build_number.dart';
 import 'package:flutter/material.dart';
 
 /// Key to access the pop-up menu widget
@@ -85,8 +85,8 @@ class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
                           spacing: 2,
                           children: [
                             ValueListenableBuilder(
-                              valueListenable:
-                                  CRLoggerHelper.instance.loggerShowingNotifier,
+                              valueListenable: AppLoggerHelper
+                                  .instance.loggerShowingNotifier,
                               //ignore:prefer-trailing-comma
                               builder: (context, loggerShowing, child) {
                                 return Icon(
@@ -115,17 +115,17 @@ class _DraggableButtonWidgetState extends State<DraggableButtonWidget> {
 
   Future<void> _defaultClick(BuildContext context) async {
     setState(() {
-      if (CRLoggerHelper.instance.isLoggerShowing) {
-        CRLoggerHelper.instance.hideLogger();
+      if (AppLoggerHelper.instance.isLoggerShowing) {
+        AppLoggerHelper.instance.hideLogger();
       } else {
         widget.onLoggerOpen(context);
-        CRLoggerHelper.instance.showLogger();
+        AppLoggerHelper.instance.showLogger();
       }
     });
   }
 
   void _onPressDraggableButton() {
-    if (!CRLoggerHelper.instance.isLoggerShowing) {
+    if (!AppLoggerHelper.instance.isLoggerShowing) {
       setState(() {
         isShow = false;
       });

@@ -1,4 +1,4 @@
-import 'package:cr_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:proxima_logger/proxima_logger.dart';
 import 'package:uuid/uuid.dart';

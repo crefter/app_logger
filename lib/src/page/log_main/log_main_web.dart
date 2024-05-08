@@ -1,16 +1,15 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/base/log_type.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/extensions/do_post_frame.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/page/http_logs/http_log_details_page.dart';
-import 'package:cr_logger/src/page/http_logs/http_logs_page.dart';
-import 'package:cr_logger/src/page/log_main/widgets/cr_web_appbar_widget.dart';
-import 'package:cr_logger/src/page/log_main/widgets/web_header_widget.dart';
-import 'package:cr_logger/src/page/logs/log_local_detail_page.dart';
-import 'package:cr_logger/src/page/logs/log_page.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/widget/options_buttons.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/extensions/do_post_frame.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/page/http_logs/http_log_details_page.dart';
+import 'package:app_logger/src/page/http_logs/http_logs_page.dart';
+import 'package:app_logger/src/page/log_main/widgets/app_web_appbar_widget.dart';
+import 'package:app_logger/src/page/log_main/widgets/web_header_widget.dart';
+import 'package:app_logger/src/page/logs/log_local_detail_page.dart';
+import 'package:app_logger/src/page/logs/log_page.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:split_view/split_view.dart';
 
@@ -123,7 +122,7 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
     final httpBean = _httpBean;
 
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: Scaffold(
         backgroundColor: CRLoggerColors.backgroundGrey,
         body: Column(
@@ -138,7 +137,7 @@ class _MainLogWebPageState extends State<MainLogWebPage> {
                 children: [
                   Column(
                     children: [
-                      CRWebAppBar(
+                      AppWebAppBar(
                         popupKey: _popupKey,
                         onLoggerClose: widget.onLoggerClose,
                       ),

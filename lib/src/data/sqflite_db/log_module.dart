@@ -1,7 +1,7 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/data/sqflite_db/converters/http_enitity_converter.dart';
-import 'package:cr_logger/src/data/sqflite_db/converters/log_entity_converters.dart';
-import 'package:cr_logger/src/data/sqflite_db/sqflite_repository.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/data/sqflite_db/converters/http_enitity_converter.dart';
+import 'package:app_logger/src/data/sqflite_db/converters/log_entity_converters.dart';
+import 'package:app_logger/src/data/sqflite_db/sqflite_repository.dart';
 
 final class LogModule {
   LogModule._();

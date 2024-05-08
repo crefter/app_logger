@@ -1,9 +1,9 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/constants.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/constants.dart';
 
 Map hideValuesInMap(Map body) {
   return body.map((key, value) {
-    if (CRLoggerInitializer.instance.hiddenFields.contains(key)) {
+    if (AppLoggerInitializer.instance.hiddenFields.contains(key)) {
       return MapEntry(key, kHidden);
     } else {
       if (value is Map) {

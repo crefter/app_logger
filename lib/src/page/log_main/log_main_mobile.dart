@@ -1,20 +1,20 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/generated/assets.dart';
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/extensions/do_post_frame.dart';
-import 'package:cr_logger/src/extensions/extensions.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/page/http_logs/http_logs_page.dart';
-import 'package:cr_logger/src/page/log_main/widgets/mobile_header_widget.dart';
-import 'package:cr_logger/src/page/logs/log_local_detail_page.dart';
-import 'package:cr_logger/src/page/logs/log_page.dart';
-import 'package:cr_logger/src/page/widgets/popup_menu.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/cr_app_bar.dart';
-import 'package:cr_logger/src/widget/options_buttons.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/generated/assets.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/extensions/do_post_frame.dart';
+import 'package:app_logger/src/extensions/extensions.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/page/http_logs/http_logs_page.dart';
+import 'package:app_logger/src/page/log_main/widgets/mobile_header_widget.dart';
+import 'package:app_logger/src/page/logs/log_local_detail_page.dart';
+import 'package:app_logger/src/page/logs/log_page.dart';
+import 'package:app_logger/src/page/widgets/popup_menu.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/app_app_bar.dart';
+import 'package:app_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
 
 class MainLogMobilePage extends StatefulWidget {
@@ -167,10 +167,10 @@ class _LogsPageState extends State<LogsPage> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: Scaffold(
         backgroundColor: CRLoggerColors.backgroundGrey,
-        appBar: CRAppBar(
+        appBar: AppAppBar(
           titleWidget: ValueListenableBuilder(
             valueListenable: _logsMode,
 

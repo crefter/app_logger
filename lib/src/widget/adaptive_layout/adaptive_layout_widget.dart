@@ -1,5 +1,5 @@
-import 'package:cr_logger/src/utils/web_utils.dart';
-import 'package:cr_logger/src/widget/adaptive_layout/layout_types.dart';
+import 'package:app_logger/src/utils/web_utils.dart';
+import 'package:app_logger/src/widget/adaptive_layout/layout_types.dart';
 import 'package:flutter/material.dart';
 
 class AdaptiveLayoutWidget extends StatefulWidget {

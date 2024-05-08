@@ -12,7 +12,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 final class CrLoggerWeb {
   static void registerWith(Registrar registrar) {
     final channel = MethodChannel(
-      'cr_logger',
+      'app_logger',
       const StandardMethodCodec(),
       registrar,
     );

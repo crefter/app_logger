@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint cr_logger.podspec` to validate before publishing.
+# Run `pod lib lint app_logger.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'cr_logger'
+  s.name             = 'app_logger'
   s.version          = '0.0.1'
   s.summary          = 'A new Flutter project.'
   s.description      = <<-DESC

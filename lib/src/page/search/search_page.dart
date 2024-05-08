@@ -1,12 +1,12 @@
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/page/search/http_search_page.dart';
-import 'package:cr_logger/src/page/search/log_search_page.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/cr_back_button.dart';
-import 'package:cr_logger/src/widget/options_buttons.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/page/search/http_search_page.dart';
+import 'package:app_logger/src/page/search/log_search_page.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/app_back_button.dart';
+import 'package:app_logger/src/widget/options_buttons.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -34,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) => Theme(
-        data: CRLoggerHelper.instance.theme,
+        data: AppLoggerHelper.instance.theme,
         child: SafeArea(
           child: Scaffold(
             backgroundColor: CRLoggerColors.backgroundGrey,
@@ -48,7 +48,7 @@ class _SearchPageState extends State<SearchPage> {
                 _isCurrentLogMode ? 'Search in logs' : 'Search log in DB',
                 style: CRStyle.subtitle1BlackSemiBold17,
               ),
-              leading: const CRBackButton(),
+              leading: const AppBackButton(),
 
               /// Tabs: HTTP and Logs
               bottom: PreferredSize(

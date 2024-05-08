@@ -1,6 +1,6 @@
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/res/colors.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/res/colors.dart';
 import 'package:flutter/material.dart';
 
 abstract class BasePageWithProgress<T extends StatefulWidget> extends State<T> {

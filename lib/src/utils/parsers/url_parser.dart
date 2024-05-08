@@ -1,4 +1,4 @@
-import 'package:cr_logger/cr_logger.dart';
+import 'package:app_logger/app_logger.dart';
 
 String getUrlWithHiddenParams(String url, {bool showFullPath = false}) {
   final uri = Uri.tryParse(url);
@@ -23,7 +23,7 @@ String getUrlWithHiddenParams(String url, {bool showFullPath = false}) {
   }
 
   /// Replace
-  CRLoggerInitializer.instance.hiddenFields.forEach((element) {
+  AppLoggerInitializer.instance.hiddenFields.forEach((element) {
     final value = parameters?[element];
     if (value != null) {
       /// = needed to avoid replacing keys if parameter have the same name as key

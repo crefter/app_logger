@@ -1,6 +1,6 @@
 import Flutter
 
-public class CrLogger : NSObject, FlutterStreamHandler {
+public class AppLogger : NSObject, FlutterStreamHandler {
     public static var loggerEvents: FlutterEventSink?
     
     private static let logTypeDebug = "d"

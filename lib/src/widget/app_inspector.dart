@@ -1,9 +1,9 @@
-import 'package:cr_logger/src/cr_logger_helper.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:inspector/inspector.dart';
 
-class CrInspector extends StatelessWidget {
-  const CrInspector({
+class AppInspector extends StatelessWidget {
+  const AppInspector({
     required this.child,
     super.key,
   });
@@ -13,7 +13,7 @@ class CrInspector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: CRLoggerHelper.instance.inspectorNotifier,
+      valueListenable: AppLoggerHelper.instance.inspectorNotifier,
       // ignore: Prefer-trailing-comma
       builder: (_, enabled, __) => Inspector(
         isEnabled: enabled,

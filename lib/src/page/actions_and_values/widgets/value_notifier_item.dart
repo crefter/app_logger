@@ -1,5 +1,5 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/res/styles.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/res/styles.dart';
 import 'package:flutter/material.dart';
 
 class ValueNotifierItem extends StatelessWidget {

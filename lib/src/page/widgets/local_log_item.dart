@@ -1,13 +1,13 @@
+import 'package:app_logger/src/base/log_type.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/data/bean/log_bean.dart';
+import 'package:app_logger/src/extensions/extensions.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/copy_widget.dart';
+import 'package:app_logger/src/widget/remove_log_widget.dart';
+import 'package:app_logger/src/widget/rounded_card.dart';
 import 'package:cr_json_widget/res/cr_json_color.dart';
-import 'package:cr_logger/src/base/log_type.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/data/bean/log_bean.dart';
-import 'package:cr_logger/src/extensions/extensions.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/copy_widget.dart';
-import 'package:cr_logger/src/widget/remove_log_widget.dart';
-import 'package:cr_logger/src/widget/rounded_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,8 +84,8 @@ class LocalLogItem extends StatelessWidget {
                 if (logTitle != null)
                   Text(
                     'TITLE: ${logTitle.toString().replaceAll(patternOfParamsRegex, '')}',
-                    style: CRStyle.bodyGreyMedium14
-                        .copyWith(color: logBean.color),
+                    style:
+                        CRStyle.bodyGreyMedium14.copyWith(color: logBean.color),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),

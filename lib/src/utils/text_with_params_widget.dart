@@ -1,7 +1,7 @@
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/utils/paramas_detector/parameter_model.dart';
-import 'package:cr_logger/src/utils/paramas_detector/params_detector.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/utils/paramas_detector/parameter_model.dart';
+import 'package:app_logger/src/utils/paramas_detector/params_detector.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

@@ -1,17 +1,17 @@
 import 'dart:io';
 
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/data/sqflite_db/converters/http_enitity_converter.dart';
-import 'package:cr_logger/src/data/sqflite_db/converters/log_entity_converters.dart';
-import 'package:cr_logger/src/data/sqflite_db/entities/http_entity.dart';
-import 'package:cr_logger/src/data/sqflite_db/entities/log_entity.dart';
-import 'package:cr_logger/src/js/console_output_worker.dart';
-import 'package:cr_logger/src/js/scripts.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/utils/html_stub.dart'
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/data/sqflite_db/converters/http_enitity_converter.dart';
+import 'package:app_logger/src/data/sqflite_db/converters/log_entity_converters.dart';
+import 'package:app_logger/src/data/sqflite_db/entities/http_entity.dart';
+import 'package:app_logger/src/data/sqflite_db/entities/log_entity.dart';
+import 'package:app_logger/src/js/console_output_worker.dart';
+import 'package:app_logger/src/js/scripts.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/utils/html_stub.dart'
     if (dart.library.js) 'dart:html' as html;
-import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
+import 'package:app_logger/src/utils/parsers/isolate_parser.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -20,7 +20,7 @@ final class TransferManager {
   final _httpMng = HttpLogManager.instance;
   final _logMng = LogManager.instance;
 
-  final _useDB = CRLoggerHelper.instance.useDB;
+  final _useDB = AppLoggerHelper.instance.useDB;
   final _parser = IsolateParser();
 
   final _logCnv = LogEntityConverter();
@@ -34,15 +34,16 @@ final class TransferManager {
         ..text = downloadLogsWebScript
         ..defer = true;
       html.document.body?.append(src);
-      downloadLogsWeb('${CRLoggerInitializer.instance.logFileName}.json', json);
+      downloadLogsWeb(
+          '${AppLoggerInitializer.instance.logFileName}.json', json);
       src.remove();
     } else {
-      if (CRLoggerInitializer.instance.onShareLogsFile == null) {
+      if (AppLoggerInitializer.instance.onShareLogsFile == null) {
         return;
       }
 
       final (file: _, path: path) = await createJsonLogsFile(json: json);
-      CRLoggerInitializer.instance.onShareLogsFile?.call(path);
+      AppLoggerInitializer.instance.onShareLogsFile?.call(path);
     }
   }
 
@@ -51,7 +52,7 @@ final class TransferManager {
     final tempDir = await getTemporaryDirectory();
 
     final path =
-        '${tempDir.path}/${CRLoggerInitializer.instance.logFileName}.json';
+        '${tempDir.path}/${AppLoggerInitializer.instance.logFileName}.json';
     final file = await File(path).create();
     await file.writeAsString(resultJson);
     return (file: file, path: path);

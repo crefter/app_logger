@@ -1,9 +1,9 @@
-package com.cleveroad.cr_logger.cr_logger
+package android.src.main.kotlin.com.crefter.app_logger.app_logger
 
 import io.flutter.plugin.common.EventChannel
 
-class CrLogger {
-    companion object CrLogger {
+class AppLogger {
+    companion object AppLogger {
         private const val LOG_TYPE_DEBUG = "d"
         private const val LOG_TYPE_INFO = "i"
         private const val LOG_TYPE_ERROR = "e"
@@ -12,8 +12,8 @@ class CrLogger {
         private var eventSink: EventChannel.EventSink? = null
 
         fun init(eventChannel: EventChannel) {
-            this.eventChannel = eventChannel
-            this.eventChannel?.setStreamHandler(
+            AppLogger.eventChannel = eventChannel
+            AppLogger.eventChannel?.setStreamHandler(
                 object : EventChannel.StreamHandler {
                     override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
                         eventSink = events

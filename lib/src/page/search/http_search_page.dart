@@ -1,14 +1,14 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/page/http_logs/http_log_details_page.dart';
-import 'package:cr_logger/src/page/search/widgets/path_widget.dart';
-import 'package:cr_logger/src/page/widgets/cupertino_search_field.dart';
-import 'package:cr_logger/src/page/widgets/http_item.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/utils/show_remove_log_bottom_sheet.dart';
-import 'package:cr_logger/src/utils/show_remove_log_snack_bar.dart';
-import 'package:cr_logger/src/utils/unfocus.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/page/http_logs/http_log_details_page.dart';
+import 'package:app_logger/src/page/search/widgets/path_widget.dart';
+import 'package:app_logger/src/page/widgets/cupertino_search_field.dart';
+import 'package:app_logger/src/page/widgets/http_item.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/utils/show_remove_log_bottom_sheet.dart';
+import 'package:app_logger/src/utils/show_remove_log_snack_bar.dart';
+import 'package:app_logger/src/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 
 class HttpSearchPage extends StatefulWidget {

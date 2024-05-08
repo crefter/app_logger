@@ -1,9 +1,9 @@
-import 'package:cr_logger/generated/assets.dart';
-import 'package:cr_logger/src/extensions/image_ext.dart';
+import 'package:app_logger/generated/assets.dart';
+import 'package:app_logger/src/extensions/image_ext.dart';
 import 'package:flutter/material.dart';
 
-class CRBackButton extends StatelessWidget {
-  const CRBackButton({
+class AppBackButton extends StatelessWidget {
+  const AppBackButton({
     super.key,
     this.color,
     this.onPressed,

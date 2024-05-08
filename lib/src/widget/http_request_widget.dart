@@ -1,12 +1,12 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/models/request_status.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/body_expansion_tile.dart';
-import 'package:cr_logger/src/widget/headers_expansion_tile.dart';
-import 'package:cr_logger/src/widget/params_expansion_tile.dart';
-import 'package:cr_logger/src/widget/url_value_widget.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/models/request_status.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/body_expansion_tile.dart';
+import 'package:app_logger/src/widget/headers_expansion_tile.dart';
+import 'package:app_logger/src/widget/params_expansion_tile.dart';
+import 'package:app_logger/src/widget/url_value_widget.dart';
 import 'package:flutter/material.dart';
 
 class HttpRequestWidget extends StatefulWidget {

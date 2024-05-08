@@ -1,7 +1,7 @@
-import 'package:cr_logger/src/data/bean/error_bean.dart' show ErrorBean;
-import 'package:cr_logger/src/data/bean/request_bean.dart' show RequestBean;
-import 'package:cr_logger/src/data/bean/response_bean.dart' show ResponseBean;
-import 'package:cr_logger/src/models/request_status.dart';
+import 'package:app_logger/src/data/bean/error_bean.dart' show ErrorBean;
+import 'package:app_logger/src/data/bean/request_bean.dart' show RequestBean;
+import 'package:app_logger/src/data/bean/response_bean.dart' show ResponseBean;
+import 'package:app_logger/src/models/request_status.dart';
 
 final class HttpBean {
   HttpBean({

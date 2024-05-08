@@ -1,6 +1,6 @@
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/data/sqflite_db/entities/http_entity.dart';
-import 'package:cr_logger/src/data/sqflite_db/entities/log_entity.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/data/sqflite_db/entities/http_entity.dart';
+import 'package:app_logger/src/data/sqflite_db/entities/log_entity.dart';
 import 'package:path/path.dart';
 import 'package:proxima_logger/proxima_logger.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,13 +22,13 @@ final class SqfliteRepository {
 
   static final instance = SqfliteRepository._();
 
-  final _maxLogsCount = CRLoggerHelper.instance.maxDBLogsCount;
+  final _maxLogsCount = AppLoggerHelper.instance.maxDBLogsCount;
 
   late final Database _database;
 
   Future<void> initDB() async {
     final pathDB = await getDatabasesPath();
-    final path = join(pathDB, 'cr_logger_logs.db');
+    final path = join(pathDB, 'app_logger_logs.db');
     _database = await openDatabase(
       path,
       onCreate: (database, version) async {

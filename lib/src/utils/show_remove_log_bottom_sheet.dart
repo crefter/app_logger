@@ -1,5 +1,5 @@
-import 'package:cr_logger/src/utils/web_utils.dart';
-import 'package:cr_logger/src/widget/delete_log_confirm_widget.dart';
+import 'package:app_logger/src/utils/web_utils.dart';
+import 'package:app_logger/src/widget/delete_log_confirm_widget.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> showRemoveLogBottomSheet(

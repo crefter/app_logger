@@ -1,6 +1,6 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/data/sqflite_db/entities/http_entity.dart';
-import 'package:cr_logger/src/utils/parsers/isolate_parser.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/data/sqflite_db/entities/http_entity.dart';
+import 'package:app_logger/src/utils/parsers/isolate_parser.dart';
 
 final class HttpEntityConverter {
   final _parser = IsolateParser();

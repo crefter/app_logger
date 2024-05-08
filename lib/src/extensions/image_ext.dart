@@ -8,7 +8,7 @@ extension ImageExt on Image {
   }) =>
       Image.asset(
         name,
-        package: 'cr_logger',
+        package: 'app_logger',
         width: width,
         height: height,
       );

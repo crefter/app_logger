@@ -1,6 +1,6 @@
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProxyInputDialog extends StatefulWidget {
@@ -19,7 +19,7 @@ class _ProxyInputDialogState extends State<ProxyInputDialog> {
     String? ip;
     String? port;
 
-    final proxy = CRLoggerHelper.instance.getProxyFromSharedPref();
+    final proxy = AppLoggerHelper.instance.getProxyFromSharedPref();
     if (proxy != null) {
       final items = proxy.split(':');
       ip = items.first;
@@ -93,13 +93,13 @@ class _ProxyInputDialogState extends State<ProxyInputDialog> {
 
     if (ip.isNotEmpty && port.isNotEmpty) {
       final proxy = '$ip:$port';
-      await CRLoggerHelper.instance.setProxyToSharedPref(proxy);
+      await AppLoggerHelper.instance.setProxyToSharedPref(proxy);
     }
     _closeDialog();
   }
 
   Future<void> _clearProxy() async {
-    await CRLoggerHelper.instance.setProxyToSharedPref(null);
+    await AppLoggerHelper.instance.setProxyToSharedPref(null);
     _closeDialog();
   }
 }

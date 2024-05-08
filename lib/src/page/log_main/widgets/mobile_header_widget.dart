@@ -1,7 +1,7 @@
-import 'package:cr_logger/src/controllers/logs_mode.dart';
-import 'package:cr_logger/src/controllers/logs_mode_controller.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
+import 'package:app_logger/src/controllers/logs_mode.dart';
+import 'package:app_logger/src/controllers/logs_mode_controller.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
 import 'package:flutter/material.dart';
 
 class MobileHeaderWidget extends StatefulWidget {
@@ -21,7 +21,6 @@ class MobileHeaderWidget extends StatefulWidget {
 }
 
 class _MobileHeaderWidgetState extends State<MobileHeaderWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Row(

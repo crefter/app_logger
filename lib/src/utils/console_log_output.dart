@@ -1,8 +1,8 @@
-import 'package:cr_logger/src/constants.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/js/console_output_worker.dart';
-import 'package:cr_logger/src/js/scripts.dart';
-import 'package:cr_logger/src/utils/html_stub.dart'
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/constants.dart';
+import 'package:app_logger/src/js/console_output_worker.dart';
+import 'package:app_logger/src/js/scripts.dart';
+import 'package:app_logger/src/utils/html_stub.dart'
     if (dart.library.js) 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 import 'package:proxima_logger/proxima_logger.dart';
@@ -17,7 +17,7 @@ final class ConsoleLogOutput extends ILogOutput {
 
   @override
   Future<void> output(OutputEvent event) async {
-    await CRLoggerHelper.instance.lock.synchronized(() async {
+    await AppLoggerHelper.instance.lock.synchronized(() async {
       if (kIsWeb) {
         if (kReleaseMode || kProfileMode) {
           final src = html.ScriptElement()..text = printLogsScript;

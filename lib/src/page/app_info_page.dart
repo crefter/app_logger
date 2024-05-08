@@ -1,9 +1,9 @@
-import 'package:cr_logger/src/cr_logger.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/page/widgets/app_info_item.dart';
-import 'package:cr_logger/src/res/colors.dart';
-import 'package:cr_logger/src/res/styles.dart';
-import 'package:cr_logger/src/widget/cr_app_bar.dart';
+import 'package:app_logger/src/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/page/widgets/app_info_item.dart';
+import 'package:app_logger/src/res/colors.dart';
+import 'package:app_logger/src/res/styles.dart';
+import 'package:app_logger/src/widget/app_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class AppInfoPage extends StatelessWidget {
@@ -11,17 +11,17 @@ class AppInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final packageInfo = CRLoggerHelper.instance.packageInfo;
+    final packageInfo = AppLoggerHelper.instance.packageInfo;
     final packageName = packageInfo.packageName;
     final version = packageInfo.version;
     final buildNumber = packageInfo.buildNumber;
-    final customInfoItems = CRLoggerInitializer.instance.appInfo.entries;
+    final customInfoItems = AppLoggerInitializer.instance.appInfo.entries;
 
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: Scaffold(
         backgroundColor: CRLoggerColors.backgroundGrey,
-        appBar: const CRAppBar(title: 'App info'),
+        appBar: const AppAppBar(title: 'App info'),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           children: [

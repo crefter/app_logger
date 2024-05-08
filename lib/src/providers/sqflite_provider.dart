@@ -1,5 +1,5 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/data/sqflite_db/log_module.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/data/sqflite_db/log_module.dart';
 
 final class SqfliteProvider {
   SqfliteProvider._();

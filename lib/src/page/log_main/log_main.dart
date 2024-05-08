@@ -1,9 +1,9 @@
-import 'package:cr_logger/cr_logger.dart';
-import 'package:cr_logger/src/cr_logger_helper.dart';
-import 'package:cr_logger/src/managers/log_manager.dart';
-import 'package:cr_logger/src/page/log_main/log_main_mobile.dart';
-import 'package:cr_logger/src/page/log_main/log_main_web.dart';
-import 'package:cr_logger/src/widget/adaptive_layout/adaptive_layout_widget.dart';
+import 'package:app_logger/app_logger.dart';
+import 'package:app_logger/src/app_logger_helper.dart';
+import 'package:app_logger/src/managers/log_manager.dart';
+import 'package:app_logger/src/page/log_main/log_main_mobile.dart';
+import 'package:app_logger/src/page/log_main/log_main_web.dart';
+import 'package:app_logger/src/widget/adaptive_layout/adaptive_layout_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainLogPage extends StatefulWidget {
@@ -69,9 +69,9 @@ class _MainLogPageState extends State<MainLogPage> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: CRLoggerHelper.instance.theme,
+      data: AppLoggerHelper.instance.theme,
       child: ValueListenableBuilder<bool>(
-        valueListenable: CRLoggerHelper.instance.loggerShowingNotifier,
+        valueListenable: AppLoggerHelper.instance.loggerShowingNotifier,
         // ignore: prefer-trailing-comma
         builder: (_, showLogger, __) => Offstage(
           offstage: !showLogger,
